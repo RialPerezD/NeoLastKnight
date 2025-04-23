@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2989182962968720766}
   - component: {fileID: 7306101553205552294}
   - component: {fileID: -8817566812461066929}
+  - component: {fileID: -4481129879953941459}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -102,6 +103,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacle_tilemap: {fileID: 0}
+  posicion: {x: 0, y: 0}
+--- !u!114 &-4481129879953941459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104738341895414252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87756dfa53d9b884f8040b0bff0fdb7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7507924459347248108
 GameObject:
   m_ObjectHideFlags: 0

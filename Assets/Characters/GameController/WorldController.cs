@@ -5,7 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class WorldController : MonoBehaviour
 {
-    struct Movimiento {
+    struct Movimiento
+    {
         public GameObject actor_;
         public Vector2Int posicionActual_;
         public Vector2Int direccion_;
@@ -23,12 +24,15 @@ public class WorldController : MonoBehaviour
     int[,] level;
 
     List<GameObject> worldObjects;
+    List<GameObject> destroyObjects;
     GameObject player;
 
     List<Movimiento> movimientos;
 
-    void Start()
+
+    void Awake()
     {
+        destroyObjects = new List<GameObject>();
         movimientos = new List<Movimiento>();
         worldGenerator = GetComponent<WorldGenerator>();
         tilemap = GameObject.Find("TMColisiones").GetComponent<Tilemap>();
@@ -46,7 +50,7 @@ public class WorldController : MonoBehaviour
 
     public void AplicaMovimientos()
     {
-        foreach(Movimiento mov in movimientos)
+        foreach (Movimiento mov in movimientos)
         {
             MoveInGrid(mov);
         }
@@ -68,7 +72,7 @@ public class WorldController : MonoBehaviour
         // Validación de límites
         if (newMatrixPos.x < 0 || newMatrixPos.x >= cols || newMatrixPos.y < 0 || newMatrixPos.y >= rows)
         {
-            Debug.LogWarning("Movimiento fuera de los límites.");
+            Debug.LogWarning("Movimiento fuera de los límites. Obj " + mov.actor_ + " pos " + mov.posicionActual_ + " dir " + mov.direccion_);
             return;
         }
 
@@ -112,15 +116,22 @@ public class WorldController : MonoBehaviour
         // Comprobamos si casilla destino esta vacia
         Vector2Int destino = CoordenadaEnMatrix(origen, direccion);
 
-        if (level[destino.y, destino.x] == 0 || level[destino.y, destino.x] >= 50)
+        if (level[destino.y, destino.x] == 0 || level[destino.y, destino.x] >= WorldGenerator.objectsStart)
         {
             movimientos.Add(new Movimiento(player, origen, direccion));
+
+            // Compruebo si choco contra un cofre o algo
+            CompruebaIteracciones(CoordenadaEnMatrix(origen, direccion));
         }
     }
 
 
     public void GeneraMovimientosObjetos()
     {
+        // Limpio la lista de nulls
+        worldObjects.RemoveAll(obj => obj == null);
+
+        // Recorro la lista
         foreach (GameObject objeto in worldObjects)
         {
             Enemy enemy = objeto.GetComponent<Enemy>();
@@ -137,5 +148,32 @@ public class WorldController : MonoBehaviour
         Vector2Int matrixPos = new Vector2Int(origen.x, level.GetLength(0) - origen.y);
         Vector2Int moveDir = new Vector2Int(direccion.x, -direccion.y);
         return matrixPos + moveDir;
+    }
+
+
+    void CompruebaIteracciones(Vector2Int posicion)
+    {
+        int a = level[posicion.y, posicion.x];
+        if (level[posicion.y, posicion.x] < WorldGenerator.enemysStart && level[posicion.y, posicion.x] != 0)
+        {
+            player.GetComponent<PlayerStats>().Interactua(level[posicion.y, posicion.x] - WorldGenerator.objectsStart);
+
+            foreach (GameObject go in worldObjects)
+            {
+                if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0)) == posicion)
+                {
+                    destroyObjects.Add(go);
+                }
+            }
+        }
+    }
+
+
+    public void DestruyeBasura()
+    {
+        foreach (GameObject go in destroyObjects)
+        {
+            Destroy(go);
+        }
     }
 }

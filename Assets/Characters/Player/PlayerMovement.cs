@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
     BeatController beatController;
     WorldController worldController;
 
-    private void Start()
+    private void Awake()
     {
         beatController = GameObject.Find("BeatController").GetComponent<BeatController>();
         worldController = GameObject.Find("WorldController").GetComponent<WorldController>();
@@ -43,5 +43,10 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
     public void UpdatePosicion(Vector2Int pos)
     {
         posicion = pos;
+    }
+
+    public Vector2Int GetPosition()
+    {
+        return posicion;
     }
 }

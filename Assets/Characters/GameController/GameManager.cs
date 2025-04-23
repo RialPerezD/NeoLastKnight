@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public int actualLevel;
     WorldController worldController;
 
+
     void Start()
     {
         UpdateReferences();
@@ -18,20 +19,17 @@ public class GameManager : MonoBehaviour
         worldController.LoadLevel(actualLevel);
     }
 
+
     void UpdateReferences()
     {
         if(worldController == null) worldController = GameObject.Find("WorldController").GetComponent<WorldController>();
 
     }
 
-    void Update()
-    {
-        
-    }
-
     public void LanzaBeat()
     {
         worldController.GeneraMovimientosObjetos();
         worldController.AplicaMovimientos();
+        worldController.DestruyeBasura();
     }
 }

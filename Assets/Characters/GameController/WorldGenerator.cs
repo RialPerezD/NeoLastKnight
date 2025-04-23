@@ -24,6 +24,11 @@ public class WorldGenerator : MonoBehaviour
     int world_x_offset = 6;
     int world_y_offset = 9;
 
+    public static int playerNumber = 100;
+    public static int objectsStart = 50;
+    public static int enemysStart = 75;
+
+
     void Awake()
     {
         world_fragments = FileLoader.LoadWorldFromFiles(file_names);
@@ -51,7 +56,7 @@ public class WorldGenerator : MonoBehaviour
             {
                 if (level[y, x] == 0) continue;
 
-                if (level[y, x] < 50)
+                if (level[y, x] < objectsStart)
                 {
                     Vector3Int position = new Vector3Int(
                         x - world_x_offset,
@@ -59,7 +64,7 @@ public class WorldGenerator : MonoBehaviour
                         0);
 
                     tilemap.SetTile(position, block_tile_list[level[y, x] - 1]);
-                }else if (level[y, x] == 100)
+                }else if (level[y, x] == playerNumber)
                 {
                     float y_value = (-y + world_y_offset + 1) * GameManager.grid_y_scale;
                     Vector3 position = new Vector3(
@@ -72,6 +77,21 @@ public class WorldGenerator : MonoBehaviour
                     new_game_object.GetComponent<PlayerMovement>().posicion = new Vector2Int(x, level.GetLength(0)-y);
 
                     player = new_game_object;
+                }else if (level[y, x] >= objectsStart && level[y, x] < enemysStart)
+                {
+                    float y_value = (-y + world_y_offset + 1) * GameManager.grid_y_scale;
+
+                    Vector3 position = new Vector3(
+                        (x - world_x_offset) * GameManager.grid_x_scale,
+                        y_value,
+                        0);
+
+                    // el primero es el player (en la lista)
+                    GameObject new_game_object = Instantiate(spawneable_items_list[(level[y, x] - objectsStart + 1)], position, Quaternion.identity);
+                    new_game_object.transform.SetParent(tilemap.transform, true);
+                    new_game_object.GetComponent<Item>().posicion = new Vector2Int(x, level.GetLength(0) - y);
+
+                    objectsInScene.Add(new_game_object);
                 }
                 else
                 {
@@ -83,18 +103,18 @@ public class WorldGenerator : MonoBehaviour
                         y_value,
                         0);
 
-                    if (level[y, x] == 51)
+                    if (level[y, x] == enemysStart)
                     {
                         y_correction = GameManager.grid_y_scale * 0.3f;
                     }
-                    else if (level[y, x] == 53)
+                    else if (level[y, x] == (enemysStart+2))
                     {
                         y_correction = 0.9f;
                     }
                     position.y += y_correction;
 
-                    //el primero es el player
-                    GameObject new_game_object = Instantiate(spawneable_items_list[level[y, x] - 49], position, Quaternion.identity);
+                    // Suma el player y los cofres
+                    GameObject new_game_object = Instantiate(spawneable_items_list[level[y, x] - enemysStart + 2], position, Quaternion.identity);
                     new_game_object.transform.SetParent(tilemap.transform, true);
                     new_game_object.GetComponent<Enemy>().posicion = new Vector2Int(x, level.GetLength(0) - y);
 

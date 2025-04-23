@@ -1671,7 +1671,7 @@ PrefabInstance:
     - target: {fileID: 7659334998131880240, guid: 74050f150416af141a73a86234a141d5, type: 3}
       propertyPath: 'spawneable_items_list.Array.data[1]'
       value: 
-      objectReference: {fileID: 4387744134788574282, guid: 38d4d15397c854745a400ef72422f0ca, type: 3}
+      objectReference: {fileID: 3176347139031234948, guid: 8204a6359692a524bb02e9539af39817, type: 3}
     - target: {fileID: 7659334998131880240, guid: 74050f150416af141a73a86234a141d5, type: 3}
       propertyPath: 'spawneable_items_list.Array.data[2]'
       value: 
@@ -1679,11 +1679,11 @@ PrefabInstance:
     - target: {fileID: 7659334998131880240, guid: 74050f150416af141a73a86234a141d5, type: 3}
       propertyPath: 'spawneable_items_list.Array.data[3]'
       value: 
-      objectReference: {fileID: 4387744134788574282, guid: 38d4d15397c854745a400ef72422f0ca, type: 3}
+      objectReference: {fileID: 7249687797235768162, guid: 5a37e919d365f7c4c92d514288ef961f, type: 3}
     - target: {fileID: 7659334998131880240, guid: 74050f150416af141a73a86234a141d5, type: 3}
       propertyPath: 'spawneable_items_list.Array.data[4]'
       value: 
-      objectReference: {fileID: 4387744134788574282, guid: 38d4d15397c854745a400ef72422f0ca, type: 3}
+      objectReference: {fileID: 9119919642883023939, guid: 45f0c9d03484cc648bda20bc841c7b54, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
