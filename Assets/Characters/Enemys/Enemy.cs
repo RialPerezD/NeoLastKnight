@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Enemy : MonoBehaviour, UpdatePosition
+public class Enemy : MonoBehaviour, UpdatePosition, Combat
 {
     private static readonly Vector2Int[] mov_dir = new Vector2Int[]
     {
@@ -13,15 +13,15 @@ public class Enemy : MonoBehaviour, UpdatePosition
         new Vector2Int(0, -1)  // Abajo
     };
 
-    int damage;
-    int hp;
-    int type;
+    public int damage;
+    public int hp;
+    public int type;
 
     public List<int> movimientos;
 
     [HideInInspector]
     public Vector2Int posicion;
-    int indiceMovimiento;
+    public int indiceMovimiento;
 
     private void Awake()
     {
@@ -43,5 +43,14 @@ public class Enemy : MonoBehaviour, UpdatePosition
     Vector2Int UpdatePosition.GetPosition()
     {
         return posicion;
+    }
+
+    public bool RecibeDamage(int ammount)
+    {
+        hp -= ammount;
+
+        if (hp <= 0) return true;
+
+        return false;
     }
 }

@@ -16,6 +16,8 @@ public class WorldGenerator : MonoBehaviour
 
     public List<Tile> block_tile_list;                  // El tile para el bloque (el valor del mapa minimo es 1)
     public List<GameObject> spawneable_items_list;      // El objeto a spawnear (el valor del mapa minimo es 50)
+    public List<GameObject> spawneable_enemy_list;      // El enemigo a spawnear (el valor del mapa minimo es 75)
+    public GameObject playerGO;
 
     public List<GameObject> objectsInScene;
     public GameObject player;
@@ -46,83 +48,52 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateObjects(Tilemap tilemap)
     {
         objectsInScene = new List<GameObject>();
+        world_y_offset += worldHeight * (level_layout_positions.Count - 2);
 
-        world_y_offset += worldHeight*(level_layout_positions.Count-2);
-
-        // Recorremos las posiciones de la matriz y colocamos los tiles donde el valor sea 1
         for (int y = 0; y < level.GetLength(0); y++)
         {
             for (int x = 0; x < level.GetLength(1); x++)
             {
-                if (level[y, x] == 0) continue;
+                int cellValue = level[y, x];
+                if (cellValue == 0) continue;
 
-                if (level[y, x] < objectsStart)
+                Vector3Int tilePos = new Vector3Int(x - world_x_offset, -y + world_y_offset, 0);
+                Vector2Int logicPos = new Vector2Int(x, level.GetLength(0) - y);
+                float yValue = (-y + world_y_offset + 1) * GameManager.grid_y_scale;
+                Vector3 objectPos = new Vector3((x - world_x_offset) * GameManager.grid_x_scale, yValue, 0);
+
+                if (cellValue < objectsStart)
                 {
-                    Vector3Int position = new Vector3Int(
-                        x - world_x_offset,
-                        -y + world_y_offset,
-                        0);
-
-                    tilemap.SetTile(position, block_tile_list[level[y, x] - 1]);
-                }else if (level[y, x] == playerNumber)
+                    tilemap.SetTile(tilePos, block_tile_list[cellValue - 1]);
+                }
+                else if (cellValue == playerNumber)
                 {
-                    float y_value = (-y + world_y_offset + 1) * GameManager.grid_y_scale;
-                    Vector3 position = new Vector3(
-                        (x - world_x_offset) * GameManager.grid_x_scale,
-                        y_value,
-                        0);
-
-                    GameObject new_game_object = Instantiate(spawneable_items_list[0], position, Quaternion.identity);
-                    new_game_object.transform.SetParent(tilemap.transform, true);
-                    new_game_object.GetComponent<PlayerMovement>().posicion = new Vector2Int(x, level.GetLength(0)-y);
-
-                    player = new_game_object;
-                }else if (level[y, x] >= objectsStart && level[y, x] < enemysStart)
+                    GameObject go = Instantiate(playerGO, objectPos, Quaternion.identity, tilemap.transform);
+                    go.GetComponent<PlayerMovement>().posicion = logicPos;
+                    player = go;
+                }
+                else if (cellValue >= objectsStart && cellValue < enemysStart)
                 {
-                    float y_value = (-y + world_y_offset + 1) * GameManager.grid_y_scale;
-
-                    Vector3 position = new Vector3(
-                        (x - world_x_offset) * GameManager.grid_x_scale,
-                        y_value,
-                        0);
-
-                    // el primero es el player (en la lista)
-                    GameObject new_game_object = Instantiate(spawneable_items_list[(level[y, x] - objectsStart + 1)], position, Quaternion.identity);
-                    new_game_object.transform.SetParent(tilemap.transform, true);
-                    new_game_object.GetComponent<Item>().posicion = new Vector2Int(x, level.GetLength(0) - y);
-
-                    objectsInScene.Add(new_game_object);
+                    GameObject go = Instantiate(spawneable_items_list[cellValue - objectsStart], objectPos, Quaternion.identity, tilemap.transform);
+                    go.GetComponent<Item>().posicion = logicPos;
+                    objectsInScene.Add(go);
                 }
                 else
                 {
-                    float y_value = (-y + world_y_offset + 1) * GameManager.grid_y_scale;
-                    float y_correction = 0;
+                    float yCorrection = 0f;
+                    if (cellValue == enemysStart) yCorrection = GameManager.grid_y_scale * 0.3f;
+                    else if (cellValue == enemysStart + 2) yCorrection = 0.9f;
 
-                    Vector3 position = new Vector3(
-                        (x - world_x_offset) * GameManager.grid_x_scale,
-                        y_value,
-                        0);
+                    objectPos.y += yCorrection;
 
-                    if (level[y, x] == enemysStart)
-                    {
-                        y_correction = GameManager.grid_y_scale * 0.3f;
-                    }
-                    else if (level[y, x] == (enemysStart+2))
-                    {
-                        y_correction = 0.9f;
-                    }
-                    position.y += y_correction;
-
-                    // Suma el player y los cofres
-                    GameObject new_game_object = Instantiate(spawneable_items_list[level[y, x] - enemysStart + 2], position, Quaternion.identity);
-                    new_game_object.transform.SetParent(tilemap.transform, true);
-                    new_game_object.GetComponent<Enemy>().posicion = new Vector2Int(x, level.GetLength(0) - y);
-
-                    objectsInScene.Add(new_game_object);
+                    GameObject go = Instantiate(spawneable_enemy_list[cellValue - enemysStart], objectPos, Quaternion.identity, tilemap.transform);
+                    go.GetComponent<Enemy>().posicion = logicPos;
+                    objectsInScene.Add(go);
                 }
             }
         }
     }
+
 
 
     public void CombineMatricesVertically()

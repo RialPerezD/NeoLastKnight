@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class WorldController : MonoBehaviour
 {
@@ -10,12 +11,14 @@ public class WorldController : MonoBehaviour
         public GameObject actor_;
         public Vector2Int posicionActual_;
         public Vector2Int direccion_;
+        public int padre_;
 
-        public Movimiento(GameObject actor, Vector2Int origen, Vector2Int direccion) : this()
+        public Movimiento(GameObject actor, Vector2Int origen, Vector2Int direccion, int padre) : this()
         {
             actor_ = actor;
             posicionActual_ = origen;
             direccion_ = direccion;
+            padre_ = padre;
         }
     };
 
@@ -28,7 +31,6 @@ public class WorldController : MonoBehaviour
     GameObject player;
 
     List<Movimiento> movimientos;
-
 
     void Awake()
     {
@@ -76,18 +78,53 @@ public class WorldController : MonoBehaviour
             return;
         }
 
-        // Mover el valor y poner 0 en la antigua posición
-        level[newMatrixPos.y, newMatrixPos.x] = level[matrixPos.y, matrixPos.x];
-        level[matrixPos.y, matrixPos.x] = 0;
 
-        // Actualizamos la posicion del objeto y en el mundo
-        mov.actor_.GetComponent<UpdatePosition>().UpdatePosicion(
-            new Vector2Int(
-                mov.direccion_.x + mov.posicionActual_.x,
-                mov.direccion_.y + mov.posicionActual_.y
-                )
-            );
-        StartCoroutine(MoveGameObject(mov.actor_, mov.direccion_));
+        if (mov.padre_ == 0 && level[newMatrixPos.y, newMatrixPos.x] >= WorldGenerator.enemysStart)
+        {
+            CombatePlayerEnemigo(newMatrixPos);
+        }else if (mov.padre_ == 1 && level[newMatrixPos.y, newMatrixPos.x] == WorldGenerator.playerNumber)
+        {
+            ComabteEnemigoPlayer(mov);
+        }
+        else
+        {
+            // Mover el valor y poner 0 en la antigua posición
+            level[newMatrixPos.y, newMatrixPos.x] = level[matrixPos.y, matrixPos.x];
+            level[matrixPos.y, matrixPos.x] = 0;
+
+            // Actualizamos la posicion del objeto y en el mundo
+            mov.actor_.GetComponent<UpdatePosition>().UpdatePosicion(
+                new Vector2Int(
+                    mov.direccion_.x + mov.posicionActual_.x,
+                    mov.direccion_.y + mov.posicionActual_.y
+                    )
+                );
+            StartCoroutine(MoveGameObject(mov.actor_, mov.direccion_));
+        }
+    }
+
+
+    void ComabteEnemigoPlayer(Movimiento mov)
+    {
+        Enemy enemy = mov.actor_.GetComponent<Enemy>();
+        enemy.indiceMovimiento--;
+        player.GetComponent<Combat>().RecibeDamage(enemy.damage);
+    }
+
+
+    void CombatePlayerEnemigo(Vector2Int futurePlayerPos)
+    {
+        foreach (GameObject go in worldObjects)
+        {
+            if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0)) == futurePlayerPos)
+            {
+                if (go.GetComponent<Combat>().RecibeDamage(player.GetComponent<PlayerStats>().damage))
+                {
+                    level[futurePlayerPos.y, futurePlayerPos.x] = 0;
+                    destroyObjects.Add(go);
+                }
+            }
+        }
     }
 
     IEnumerator MoveGameObject(GameObject go, Vector2Int direccion)
@@ -103,12 +140,14 @@ public class WorldController : MonoBehaviour
 
         while (elapsed < duration)
         {
+            if (go == null) break;
+
             go.transform.localPosition = Vector3.Lerp(startPos, endPos, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        go.transform.localPosition = endPos;
+        if (go != null) go.transform.localPosition = endPos;
     }
 
     public void MovimientoPlayer(Vector2Int origen, Vector2Int direccion)
@@ -116,9 +155,15 @@ public class WorldController : MonoBehaviour
         // Comprobamos si casilla destino esta vacia
         Vector2Int destino = CoordenadaEnMatrix(origen, direccion);
 
-        if (level[destino.y, destino.x] == 0 || level[destino.y, destino.x] >= WorldGenerator.objectsStart)
+        // Comprobar si es un enemigo o espacio en blanco
+        if (level[destino.y, destino.x] == 0 || level[destino.y, destino.x] >= WorldGenerator.enemysStart)
         {
-            movimientos.Add(new Movimiento(player, origen, direccion));
+            movimientos.Add(new Movimiento(player, origen, direccion, 0));
+        }
+        // Comprobar si es un objeto
+        else if (level[destino.y, destino.x] >= WorldGenerator.objectsStart)
+        {
+            movimientos.Add(new Movimiento(player, origen, direccion, 0));
 
             // Compruebo si choco contra un cofre o algo
             CompruebaIteracciones(CoordenadaEnMatrix(origen, direccion));
@@ -137,7 +182,11 @@ public class WorldController : MonoBehaviour
             Enemy enemy = objeto.GetComponent<Enemy>();
             if (enemy)
             {
-                movimientos.Add(new Movimiento(objeto, enemy.posicion, enemy.DameMovimiento()));
+                Vector2Int mov = enemy.DameMovimiento();
+                if (mov != new Vector2Int(0,0))
+                {
+                    movimientos.Add(new Movimiento(objeto, enemy.posicion, mov, 1));
+                }
             }
         }
     }
@@ -153,7 +202,6 @@ public class WorldController : MonoBehaviour
 
     void CompruebaIteracciones(Vector2Int posicion)
     {
-        int a = level[posicion.y, posicion.x];
         if (level[posicion.y, posicion.x] < WorldGenerator.enemysStart && level[posicion.y, posicion.x] != 0)
         {
             player.GetComponent<PlayerStats>().Interactua(level[posicion.y, posicion.x] - WorldGenerator.objectsStart);

@@ -2,7 +2,9 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 public class BeatController : MonoBehaviour
-{   
+{
+
+    bool debug = false;
 
     public float reset_position = -400f;          // Posicion inicial de la barra
 
@@ -15,7 +17,7 @@ public class BeatController : MonoBehaviour
     float timer;
     double startingTime;
     float currentBeatPosition;
-    private bool beatTriggered;
+    bool beatTriggered;
 
     void Awake()
     {
@@ -62,8 +64,10 @@ public class BeatController : MonoBehaviour
     {
         if (timer < 0.2f)
         {
+            if(debug)print("Bien "+timer);
             return true;
         }
+        if (debug) print("Mal " + timer);
         return false;
     }
 }

@@ -1,18 +1,11 @@
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviour, Combat
 {
-    public int weaponType;
-
-    float hp;
-    public float coins;
-
-    private void Start()
-    {
-        weaponType = 0;
-        hp = 100;
-        coins = 0;
-    }
+    public int weaponType = 0;
+    public float hp = 10;
+    public float coins = 0;
+    public int damage = 1;
 
     public void Interactua(int objectType)
     {
@@ -27,5 +20,18 @@ public class PlayerStats : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public bool RecibeDamage(int ammount)
+    {
+        hp -= ammount;
+
+        if (hp <= 0)
+        {
+            // muerto
+            return true;
+        }
+
+        return false;
     }
 }
