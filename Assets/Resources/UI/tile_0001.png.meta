@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 13a833ca044faa3498fdc54160bc7a71
+guid: 0bee1d584be527c4191a047fa0438d7a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7275552521821951843
-    second: rocks3_0
+      213: -4783177402104371535
+    second: tile_0001_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,9 +40,9 @@ TextureImporter:
     filterMode: 0
     aniso: 1
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -122,17 +122,30 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rocks3_0
+      name: tile_0001_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 21
-        height: 17
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +154,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d98ea18678b080b90800000000000000
-      internalID: -7275552521821951843
+      spriteID: 1b6a4e1ce7dbe9db0800000000000000
+      internalID: -4783177402104371535
       vertices: []
       indices: 
       edges: []
@@ -161,7 +174,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      rocks3_0: -7275552521821951843
+      tile_0001_0: -4783177402104371535
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

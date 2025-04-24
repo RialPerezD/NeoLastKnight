@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: 3bc48f600b14af84c96aae5841a0720d
+guid: 43057b1f261755e4cb136c1bb3f4d3a1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8692098715818667583
-    second: caballero_0
+      213: -2151256579594707336
+    second: fist_0
+  - first:
+      213: 6702046700113486352
+    second: fist_1
+  - first:
+      213: -7520410724212831625
+    second: fist_2
+  - first:
+      213: 3409920162834939439
+    second: fist_3
+  - first:
+      213: 7600772318538998004
+    second: fist_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +58,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 325
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -110,7 +122,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
+    buildTarget: iOS
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -126,13 +138,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: caballero_0
+      name: fist_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 0
-        width: 466
-        height: 512
+        x: 0
+        y: 331
+        width: 122
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +153,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f3e2005bab980a870800000000000000
-      internalID: 8692098715818667583
+      spriteID: 87e1988e9833522e0800000000000000
+      internalID: -2151256579594707336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fist_1
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 155
+        width: 473
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 012e75cf6f3720d50800000000000000
+      internalID: 6702046700113486352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fist_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 219
+        width: 98
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77a814a8a4222a790800000000000000
+      internalID: -7520410724212831625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fist_3
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 147
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2ef7325258725f20800000000000000
+      internalID: 3409920162834939439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fist_4
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 147
+        width: 107
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f0a321372e5b7960800000000000000
+      internalID: 7600772318538998004
       vertices: []
       indices: 
       edges: []
@@ -151,7 +251,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +261,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      caballero_0: 8692098715818667583
+      fist_0: -2151256579594707336
+      fist_1: 6702046700113486352
+      fist_2: -7520410724212831625
+      fist_3: 3409920162834939439
+      fist_4: 7600772318538998004
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -6,6 +6,8 @@ using UnityEngine.UIElements;
 
 public class WorldController : MonoBehaviour
 {
+    public List<GameObject> listaWeapons;
+
     struct Movimiento
     {
         public GameObject actor_;
@@ -78,14 +80,19 @@ public class WorldController : MonoBehaviour
             return;
         }
 
-
+        bool playerMueveCam = false;
         if (mov.padre_ == 0 && level[newMatrixPos.y, newMatrixPos.x] >= WorldGenerator.enemysStart)
         {
             CombatePlayerEnemigo(newMatrixPos);
+            GeneraArma(mov.actor_.transform.position, mov.direccion_, 0);
+            player.GetComponent<PlayerMovement>().alturaActual -= 1;
         }
-        else if (mov.padre_ == 1 && level[newMatrixPos.y, newMatrixPos.x] == WorldGenerator.playerNumber)
+        else if (mov.padre_ >= 1 && level[newMatrixPos.y, newMatrixPos.x] == WorldGenerator.playerNumber)
         {
             ComabteEnemigoPlayer(mov);
+            Vector3 posicion = mov.actor_.transform.position;
+            if (mov.padre_ == 1) posicion.y -= GameManager.grid_y_scale / 4.0f;
+            GeneraArma(posicion, mov.direccion_, 1);
         }
         else
         {
@@ -101,6 +108,22 @@ public class WorldController : MonoBehaviour
                     )
                 );
             StartCoroutine(MoveGameObject(mov.actor_, mov.direccion_));
+
+            // Centrar si es sala de boss
+            if (newMatrixPos.y < 7)
+            {
+                player.GetComponent<PlayerMovement>().FuerzaCentroCamara();
+            }
+            else
+            {
+                playerMueveCam = true;
+            }
+        }
+
+        // Si es el player se mueve la cam
+        if (mov.padre_ == 0 && playerMueveCam)
+        {
+            player.GetComponent<PlayerMovement>().MueveCamara();
         }
     }
 
@@ -122,7 +145,7 @@ public class WorldController : MonoBehaviour
             foreach (GameObject go in worldObjects)
             {
                 Enemy enemy = go.GetComponent<Enemy>();
-                if (enemy.type == 1)
+                if (enemy.type == 2)
                 {
                     Vector2Int pos = CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0));
                     foreach (Vector2Int actualPos in Enemy.GeneraMascaraTipo(pos, 0))
@@ -167,14 +190,13 @@ public class WorldController : MonoBehaviour
             direccion.y * GameManager.grid_y_scale,
             0);
 
-        float duration = 0.2f;
         float elapsed = 0f;
 
-        while (elapsed < duration)
+        while (elapsed < GameManager.animDuration)
         {
             if (go == null) break;
 
-            go.transform.localPosition = Vector3.Lerp(startPos, endPos, elapsed / duration);
+            go.transform.localPosition = Vector3.Lerp(startPos, endPos, elapsed / GameManager.animDuration);
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -217,7 +239,7 @@ public class WorldController : MonoBehaviour
                 Vector2Int mov = enemy.DameMovimiento();
                 if (mov != new Vector2Int(0,0))
                 {
-                    movimientos.Add(new Movimiento(objeto, enemy.posicion, mov, 1));
+                    movimientos.Add(new Movimiento(objeto, enemy.posicion, mov, 1 + enemy.type));
                 }
             }
         }
@@ -255,5 +277,26 @@ public class WorldController : MonoBehaviour
         {
             Destroy(go);
         }
+    }
+
+    void GeneraArma(Vector3 pos, Vector2Int dir, int type)
+    {
+        Vector2 desplazamiento =
+            new Vector2(
+                dir.x * GameManager.grid_x_scale,
+                dir.y * GameManager.grid_y_scale
+                ) / 2;
+
+        Vector3 newPos = new Vector3(
+            pos.x + dir.x,
+            pos.y + dir.y,
+            0
+        );
+
+        // Crear una rotación en el eje Z (2D)
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+        Instantiate(listaWeapons[type], newPos, rotation, tilemap.transform);
     }
 }
