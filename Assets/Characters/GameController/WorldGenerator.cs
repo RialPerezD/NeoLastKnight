@@ -82,7 +82,19 @@ public class WorldGenerator : MonoBehaviour
                 {
                     float yCorrection = 0f;
                     if (cellValue == enemysStart) yCorrection = GameManager.grid_y_scale * 0.3f;
-                    else if (cellValue == enemysStart + 2) yCorrection = 0.9f;
+                    else if (cellValue == enemysStart + 2)
+                    {
+                        for (int ny = y - 1; ny <= y; ny++)
+                        {
+                            for (int nx = x - 1; nx <= x + 1; nx++)
+                            {
+                                level[ny, nx] = enemysStart + 2;
+                            }
+                        }
+
+                        x++;
+                        yCorrection = 0.9f;
+                    }
 
                     objectPos.y += yCorrection;
 

@@ -82,7 +82,8 @@ public class WorldController : MonoBehaviour
         if (mov.padre_ == 0 && level[newMatrixPos.y, newMatrixPos.x] >= WorldGenerator.enemysStart)
         {
             CombatePlayerEnemigo(newMatrixPos);
-        }else if (mov.padre_ == 1 && level[newMatrixPos.y, newMatrixPos.x] == WorldGenerator.playerNumber)
+        }
+        else if (mov.padre_ == 1 && level[newMatrixPos.y, newMatrixPos.x] == WorldGenerator.playerNumber)
         {
             ComabteEnemigoPlayer(mov);
         }
@@ -114,14 +115,45 @@ public class WorldController : MonoBehaviour
 
     void CombatePlayerEnemigo(Vector2Int futurePlayerPos)
     {
-        foreach (GameObject go in worldObjects)
+        // Boss Dragon
+        if (level[futurePlayerPos.y, futurePlayerPos.x] == WorldGenerator.enemysStart+2)
         {
-            if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0)) == futurePlayerPos)
+            bool salir = false;
+            foreach (GameObject go in worldObjects)
             {
-                if (go.GetComponent<Combat>().RecibeDamage(player.GetComponent<PlayerStats>().damage))
+                Enemy enemy = go.GetComponent<Enemy>();
+                if (enemy.type == 1)
                 {
-                    level[futurePlayerPos.y, futurePlayerPos.x] = 0;
-                    destroyObjects.Add(go);
+                    Vector2Int pos = CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0));
+                    foreach (Vector2Int actualPos in Enemy.GeneraMascaraTipo(pos, 0))
+                    {
+                        if (actualPos == futurePlayerPos)
+                        {
+                            if (go.GetComponent<Combat>().RecibeDamage(player.GetComponent<PlayerStats>().damage))
+                            {
+                                Enemy.LimpiaMascaraTipo(pos, 0, level);
+                                destroyObjects.Add(go);
+
+                                salir = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (salir) break;
+            }
+        }
+        else
+        {
+            foreach (GameObject go in worldObjects)
+            {
+                if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0)) == futurePlayerPos)
+                {
+                    if (go.GetComponent<Combat>().RecibeDamage(player.GetComponent<PlayerStats>().damage))
+                    {
+                        level[futurePlayerPos.y, futurePlayerPos.x] = 0;
+                        destroyObjects.Add(go);
+                    }
                 }
             }
         }

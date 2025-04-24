@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateReferences();
 
-        actualLevel = 2;
+        actualLevel = 1;
         worldController.LoadLevel(actualLevel);
     }
 

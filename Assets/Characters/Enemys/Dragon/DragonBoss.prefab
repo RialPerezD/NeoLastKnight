@@ -100,5 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06bbc2ba7720e0e459c9940f431301a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 0
+  hp: 0
+  type: 1
   movimientos: 
   posicion: {x: 0, y: 0}
+  indiceMovimiento: 0
