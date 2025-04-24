@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - BSI
+  - BBC
+  - BSD
+  - Sound
+  - BSM
   layers:
   - Default
   - TransparentFX
