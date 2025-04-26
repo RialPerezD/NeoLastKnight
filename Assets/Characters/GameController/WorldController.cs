@@ -30,16 +30,21 @@ public class WorldController : MonoBehaviour
 
     List<GameObject> worldObjects;
     List<GameObject> destroyObjects;
+    List<GameObject> addObjects;
     GameObject player;
 
     List<Movimiento> movimientos;
 
+    ShootManager shootManager;
+
     void Awake()
     {
         destroyObjects = new List<GameObject>();
+        addObjects = new List<GameObject>();
         movimientos = new List<Movimiento>();
         worldGenerator = GetComponent<WorldGenerator>();
         tilemap = GameObject.Find("TMColisiones").GetComponent<Tilemap>();
+        shootManager = GetComponent<ShootManager>();
     }
 
     public void LoadLevel(int level_index)
@@ -85,7 +90,16 @@ public class WorldController : MonoBehaviour
         {
             CombatePlayerEnemigo(newMatrixPos);
             GeneraArma(mov.actor_.transform.position, mov.direccion_, 0);
-            player.GetComponent<PlayerMovement>().alturaActual -= 1;
+
+            if (mov.direccion_.y > 0)
+            {
+                player.GetComponent<PlayerMovement>().alturaActual -= 1;
+            }
+        }
+        else if (mov.padre_ >= 50 && level[newMatrixPos.y, newMatrixPos.x] == WorldGenerator.playerNumber)
+        {
+            CombateProyectilJugador(mov);
+            level[matrixPos.y, matrixPos.x] = 0;
         }
         else if (mov.padre_ >= 1 && level[newMatrixPos.y, newMatrixPos.x] == WorldGenerator.playerNumber)
         {
@@ -110,7 +124,7 @@ public class WorldController : MonoBehaviour
             StartCoroutine(MoveGameObject(mov.actor_, mov.direccion_));
 
             // Centrar si es sala de boss
-            if (newMatrixPos.y < 7)
+            if (newMatrixPos.y < 6)
             {
                 player.GetComponent<PlayerMovement>().FuerzaCentroCamara();
             }
@@ -125,6 +139,36 @@ public class WorldController : MonoBehaviour
         {
             player.GetComponent<PlayerMovement>().MueveCamara();
         }
+    }
+
+
+    void CompruebaDisparos(Enemy enemy)
+    {
+        if (enemy.type == 1)
+        {
+            if (enemy.indiceDisparo == 0)
+            {
+                Vector2Int posicion = CoordenadaEnMatrix(enemy.posicion, new Vector2Int(0, 0));
+                GameObject disparable = shootManager.EnemyShoot(posicion, enemy, level, tilemap);
+
+                if (disparable)
+                {
+                    addObjects.Add(disparable);
+                    enemy.indiceDisparo = enemy.cadenciaDisparo;
+                }
+            }
+            else
+            {
+                enemy.indiceDisparo--;
+            }
+        }
+    }
+
+
+    void CombateProyectilJugador(Movimiento mov)
+    {
+        player.GetComponent<Combat>().RecibeDamage(mov.actor_.GetComponent<Disparable>().damage);
+        destroyObjects.Add(mov.actor_);
     }
 
 
@@ -234,6 +278,8 @@ public class WorldController : MonoBehaviour
         foreach (GameObject objeto in worldObjects)
         {
             Enemy enemy = objeto.GetComponent<Enemy>();
+            Disparable disparable = objeto.GetComponent<Disparable>();
+
             if (enemy)
             {
                 Vector2Int mov = enemy.DameMovimiento();
@@ -241,6 +287,14 @@ public class WorldController : MonoBehaviour
                 {
                     movimientos.Add(new Movimiento(objeto, enemy.posicion, mov, 1 + enemy.type));
                 }
+                else
+                {
+                    CompruebaDisparos(enemy);
+                }
+            }
+            else if (disparable)
+            {
+                movimientos.Add(new Movimiento(objeto, disparable.posicion, disparable.direccion, 50+disparable.type));
             }
         }
     }
@@ -277,7 +331,25 @@ public class WorldController : MonoBehaviour
         {
             Destroy(go);
         }
+
+        destroyObjects.Clear();
+
+        worldObjects.RemoveAll(obj => obj == null);
     }
+
+
+    public void SpawneaObjetos()
+    {
+        foreach (GameObject go in addObjects)
+        {
+            worldObjects.Add(go);
+        }
+
+        addObjects.Clear();
+
+        worldObjects.RemoveAll(obj => obj == null);
+    }
+
 
     void GeneraArma(Vector3 pos, Vector2Int dir, int type)
     {

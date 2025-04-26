@@ -33,5 +33,6 @@ public class GameManager : MonoBehaviour
         worldController.GeneraMovimientosObjetos();
         worldController.AplicaMovimientos();
         worldController.DestruyeBasura();
+        worldController.SpawneaObjetos();
     }
 }

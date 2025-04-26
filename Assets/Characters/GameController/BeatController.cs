@@ -25,7 +25,6 @@ public class BeatController : MonoBehaviour
     Material materialPelota;
     float flashvalue = 0;
     bool palpita = false;
-    float contador = 0;
 
     void Awake()
     {
@@ -66,8 +65,9 @@ public class BeatController : MonoBehaviour
 
         if (palpita)
         {
-            float scale = 1f + Mathf.Sin(Time.time * Mathf.PI) * 0.2f; // bump suave
-            centroBarra.rectTransform.localScale = new Vector3(scale, scale, 1f);
+            float t_normalizado = timer * 2f; // de min 0.0 -> max 0.5 a min 0 -> max 1
+            float valor = 1f + (Mathf.Abs(t_normalizado - 0.5f)/2);
+            centroBarra.rectTransform.localScale = new Vector3(valor, valor, 1f);
         }
     }
 
@@ -101,7 +101,7 @@ public class BeatController : MonoBehaviour
 
     public bool PuedoMoverme()
     {
-        if (timer < 0.2f)
+        if (timer < 0.3f)
         {
             if(debug)print("Bien "+timer);
             return true;

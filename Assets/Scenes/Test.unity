@@ -553,6 +553,20 @@ MonoBehaviour:
   listaWeapons:
   - {fileID: 8594680385037668760, guid: fdc338b8792656f48ab8e197101e2170, type: 3}
   - {fileID: 938051291521329666, guid: a8e5bb7cb4fd4e44bbc1b1d517f4a7fd, type: 3}
+--- !u!114 &1568468374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568468368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0062e3e150af89e48b60361f1d95c9b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disparables:
+  - {fileID: 6926615105246052733, guid: ca1e9e4e93f112b4786ac1874a2e9528, type: 3}
 --- !u!1 &1647624553
 GameObject:
   m_ObjectHideFlags: 0
@@ -18726,6 +18740,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6846729894102715596, guid: 74050f150416af141a73a86234a141d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1568468371}
+    - targetCorrespondingSourceObject: {fileID: 6846729894102715596, guid: 74050f150416af141a73a86234a141d5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1568468374}
   m_SourcePrefab: {fileID: 100100000, guid: 74050f150416af141a73a86234a141d5, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

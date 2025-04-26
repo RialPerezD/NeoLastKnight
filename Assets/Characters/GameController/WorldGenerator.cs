@@ -7,7 +7,7 @@ public class WorldGenerator : MonoBehaviour
 {
     public List<string> file_names;
 
-    int worldWidth = 13;
+    public static int worldWidth = 13;
     int worldHeight = 7;
 
     Dictionary<int, Dictionary<int, int[,]>> world_fragments;
@@ -23,12 +23,13 @@ public class WorldGenerator : MonoBehaviour
     public GameObject player;
 
     // Para que quede centrada la generacion del mundo
-    int world_x_offset = 6;
-    int world_y_offset = 9;
+    public static int world_x_offset = 6;
+    public static int world_y_offset = 9;
 
     public static int playerNumber = 100;
     public static int objectsStart = 50;
     public static int enemysStart = 75;
+    public static int projectileStart = 101;
 
 
     void Awake()
@@ -48,18 +49,18 @@ public class WorldGenerator : MonoBehaviour
     public void GenerateObjects(Tilemap tilemap)
     {
         objectsInScene = new List<GameObject>();
-        world_y_offset += worldHeight * (level_layout_positions.Count - 2);
+        int yOffset = world_y_offset + worldHeight * (level_layout_positions.Count - 2);
 
-        for (int y = 0; y < level.GetLength(0); y++)
+        for (float y = 0; y < level.GetLength(0); y++)
         {
-            for (int x = 0; x < level.GetLength(1); x++)
+            for (float x = 0; x < level.GetLength(1); x++)
             {
-                int cellValue = level[y, x];
+                int cellValue = level[(int)y, (int)x];
                 if (cellValue == 0) continue;
 
-                Vector3Int tilePos = new Vector3Int(x - world_x_offset, -y + world_y_offset, 0);
-                Vector2Int logicPos = new Vector2Int(x, level.GetLength(0) - y);
-                float yValue = (-y + world_y_offset + 1) * GameManager.grid_y_scale;
+                Vector3Int tilePos = new Vector3Int((int)x - world_x_offset, (int)-y + yOffset, 0);
+                Vector2Int logicPos = new Vector2Int((int)x, level.GetLength(0) - (int)y);
+                float yValue = (-y + yOffset + 1) * GameManager.grid_y_scale;
                 Vector3 objectPos = new Vector3((x - world_x_offset) * GameManager.grid_x_scale, yValue, 0);
 
                 if (cellValue < objectsStart)
@@ -84,9 +85,9 @@ public class WorldGenerator : MonoBehaviour
                     if (cellValue == enemysStart) yCorrection = GameManager.grid_y_scale * 0.3f;
                     else if (cellValue == enemysStart + 2)
                     {
-                        for (int ny = y - 1; ny <= y; ny++)
+                        for (int ny = (int)y - 1; ny <= y; ny++)
                         {
-                            for (int nx = x - 1; nx <= x + 1; nx++)
+                            for (int nx = (int)x - 1; nx <= x + 1; nx++)
                             {
                                 level[ny, nx] = enemysStart + 2;
                             }

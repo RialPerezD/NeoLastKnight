@@ -1,8 +1,5 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
 
 public class Enemy : MonoBehaviour, UpdatePosition, Combat
 {
@@ -27,12 +24,16 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
     public int damage;
     public int hp;
     public int type;
+    public int range;
 
     public List<int> movimientos;
 
     [HideInInspector]
     public Vector2Int posicion;
     public int indiceMovimiento;
+
+    public int cadenciaDisparo = 3;
+    public int indiceDisparo = 0;
 
     private void Awake()
     {
