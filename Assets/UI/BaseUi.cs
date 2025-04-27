@@ -9,6 +9,9 @@ public class BaseUi : MonoBehaviour
     TextMeshProUGUI monedas;
     Transform scoreBarra;
 
+    public GameObject canvasToActivePause;
+    private bool pauseactive = false;
+
     Vector3 inicioBarra;
 
     void Start()
@@ -34,6 +37,22 @@ public class BaseUi : MonoBehaviour
 
         StopAllCoroutines();
         StartCoroutine(MoverBarraMonedas(inicioBarra, cantidadDesplazamiento, true));
+    }
+
+    public void OpenPauseMenu()
+    {
+        if (pauseactive)
+        {
+            pauseactive = false;
+            canvasToActivePause.SetActive(pauseactive);
+        }
+        else
+        {
+
+            pauseactive = true;
+            canvasToActivePause.SetActive(pauseactive);
+
+        }
     }
 
 

@@ -11,7 +11,7 @@ public class BeatController : MonoBehaviour
     public float beatsPerMinute = 100;
     float beatsPerSecond;
 
-    AudioSource audioSource;
+    public AudioSource audioSource;
     GameManager gameManager;
 
     float timer;
@@ -109,4 +109,6 @@ public class BeatController : MonoBehaviour
         if (debug) print("Mal " + timer);
         return false;
     }
+
+    
 }
