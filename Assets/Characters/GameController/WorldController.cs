@@ -6,9 +6,7 @@ using UnityEngine.UIElements;
 
 public class WorldController : MonoBehaviour
 {
-    public List<GameObject> listaWeapons;
-
-    struct Movimiento
+    public struct Movimiento
     {
         public GameObject actor_;
         public Vector2Int posicionActual_;
@@ -25,6 +23,7 @@ public class WorldController : MonoBehaviour
     };
 
     WorldGenerator worldGenerator;
+    CombatController combatController;
     Tilemap tilemap;
     int[,] level;
 
@@ -35,16 +34,14 @@ public class WorldController : MonoBehaviour
 
     List<Movimiento> movimientos;
 
-    ShootManager shootManager;
-
     void Awake()
     {
         destroyObjects = new List<GameObject>();
         addObjects = new List<GameObject>();
         movimientos = new List<Movimiento>();
         worldGenerator = GetComponent<WorldGenerator>();
+        combatController = GetComponent<CombatController>();
         tilemap = GameObject.Find("TMColisiones").GetComponent<Tilemap>();
-        shootManager = GetComponent<ShootManager>();
     }
 
     public void LoadLevel(int level_index)
@@ -70,15 +67,16 @@ public class WorldController : MonoBehaviour
 
     void MoveInGrid(Movimiento mov)
     {
-        int rows = level.GetLength(0); // Altura
-        int cols = level.GetLength(1); // Ancho
+        int rows = level.GetLength(0);
+        int cols = level.GetLength(1);
 
-        // Invertir Y porque la matriz tiene el origen en la esquina superior izquierda
-        Vector2Int matrixPos = new Vector2Int(mov.posicionActual_.x, rows - mov.posicionActual_.y);
+        Vector2Int matrixPos = mov.padre_ >= 50
+            ? new Vector2Int(mov.posicionActual_.x, mov.posicionActual_.y)
+            : new Vector2Int(mov.posicionActual_.x, rows - mov.posicionActual_.y);
+
         Vector2Int moveDir = new Vector2Int(mov.direccion_.x, -mov.direccion_.y);
         Vector2Int newMatrixPos = matrixPos + moveDir;
 
-        // Validación de límites
         if (newMatrixPos.x < 0 || newMatrixPos.x >= cols || newMatrixPos.y < 0 || newMatrixPos.y >= rows)
         {
             Debug.LogWarning("Movimiento fuera de los límites. Obj " + mov.actor_ + " pos " + mov.posicionActual_ + " dir " + mov.direccion_);
@@ -86,143 +84,32 @@ public class WorldController : MonoBehaviour
         }
 
         bool playerMueveCam = false;
-        if (mov.padre_ == 0 && level[newMatrixPos.y, newMatrixPos.x] >= WorldGenerator.enemysStart)
-        {
-            CombatePlayerEnemigo(newMatrixPos);
-            GeneraArma(mov.actor_.transform.position, mov.direccion_, 0);
+        combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level);
 
-            if (mov.direccion_.y > 0)
+        if (combatController.ComprobarCombate(newMatrixPos, mov, matrixPos))
+        {
+            if (mov.padre_ == 0)
             {
-                player.GetComponent<PlayerMovement>().alturaActual -= 1;
+                playerMueveCam = newMatrixPos.y >= 6 ? true : false;
+                if (!playerMueveCam) player.GetComponent<PlayerMovement>().FuerzaCentroCamara();
             }
-        }
-        else if (mov.padre_ >= 50 && level[newMatrixPos.y, newMatrixPos.x] == WorldGenerator.playerNumber)
-        {
-            CombateProyectilJugador(mov);
-            level[matrixPos.y, matrixPos.x] = 0;
-        }
-        else if (mov.padre_ >= 1 && level[newMatrixPos.y, newMatrixPos.x] == WorldGenerator.playerNumber)
-        {
-            ComabteEnemigoPlayer(mov);
-            Vector3 posicion = mov.actor_.transform.position;
-            if (mov.padre_ == 1) posicion.y -= GameManager.grid_y_scale / 4.0f;
-            GeneraArma(posicion, mov.direccion_, 1);
-        }
-        else
-        {
-            // Mover el valor y poner 0 en la antigua posición
+
             level[newMatrixPos.y, newMatrixPos.x] = level[matrixPos.y, matrixPos.x];
             level[matrixPos.y, matrixPos.x] = 0;
 
-            // Actualizamos la posicion del objeto y en el mundo
+            int esLanzable = (mov.padre_ >= 50) ? -1 : 1;
             mov.actor_.GetComponent<UpdatePosition>().UpdatePosicion(
                 new Vector2Int(
                     mov.direccion_.x + mov.posicionActual_.x,
-                    mov.direccion_.y + mov.posicionActual_.y
-                    )
-                );
+                    esLanzable * mov.direccion_.y + mov.posicionActual_.y
+                )
+            );
             StartCoroutine(MoveGameObject(mov.actor_, mov.direccion_));
-
-            // Centrar si es sala de boss
-            if (newMatrixPos.y < 6)
-            {
-                player.GetComponent<PlayerMovement>().FuerzaCentroCamara();
-            }
-            else
-            {
-                playerMueveCam = true;
-            }
         }
 
-        // Si es el player se mueve la cam
         if (mov.padre_ == 0 && playerMueveCam)
         {
             player.GetComponent<PlayerMovement>().MueveCamara();
-        }
-    }
-
-
-    void CompruebaDisparos(Enemy enemy)
-    {
-        if (enemy.type == 1)
-        {
-            if (enemy.indiceDisparo == 0)
-            {
-                Vector2Int posicion = CoordenadaEnMatrix(enemy.posicion, new Vector2Int(0, 0));
-                GameObject disparable = shootManager.EnemyShoot(posicion, enemy, level, tilemap);
-
-                if (disparable)
-                {
-                    addObjects.Add(disparable);
-                    enemy.indiceDisparo = enemy.cadenciaDisparo;
-                }
-            }
-            else
-            {
-                enemy.indiceDisparo--;
-            }
-        }
-    }
-
-
-    void CombateProyectilJugador(Movimiento mov)
-    {
-        player.GetComponent<Combat>().RecibeDamage(mov.actor_.GetComponent<Disparable>().damage);
-        destroyObjects.Add(mov.actor_);
-    }
-
-
-    void ComabteEnemigoPlayer(Movimiento mov)
-    {
-        Enemy enemy = mov.actor_.GetComponent<Enemy>();
-        enemy.indiceMovimiento--;
-        player.GetComponent<Combat>().RecibeDamage(enemy.damage);
-    }
-
-
-    void CombatePlayerEnemigo(Vector2Int futurePlayerPos)
-    {
-        // Boss Dragon
-        if (level[futurePlayerPos.y, futurePlayerPos.x] == WorldGenerator.enemysStart+2)
-        {
-            bool salir = false;
-            foreach (GameObject go in worldObjects)
-            {
-                Enemy enemy = go.GetComponent<Enemy>();
-                if (enemy.type == 2)
-                {
-                    Vector2Int pos = CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0));
-                    foreach (Vector2Int actualPos in Enemy.GeneraMascaraTipo(pos, 0))
-                    {
-                        if (actualPos == futurePlayerPos)
-                        {
-                            if (go.GetComponent<Combat>().RecibeDamage(player.GetComponent<PlayerStats>().damage))
-                            {
-                                Enemy.LimpiaMascaraTipo(pos, 0, level);
-                                destroyObjects.Add(go);
-
-                                salir = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (salir) break;
-            }
-        }
-        else
-        {
-            foreach (GameObject go in worldObjects)
-            {
-                if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0)) == futurePlayerPos)
-                {
-                    if (go.GetComponent<Combat>().RecibeDamage(player.GetComponent<PlayerStats>().damage))
-                    {
-                        level[futurePlayerPos.y, futurePlayerPos.x] = 0;
-                        destroyObjects.Add(go);
-                    }
-                }
-            }
         }
     }
 
@@ -251,7 +138,7 @@ public class WorldController : MonoBehaviour
     public void MovimientoPlayer(Vector2Int origen, Vector2Int direccion)
     {
         // Comprobamos si casilla destino esta vacia
-        Vector2Int destino = CoordenadaEnMatrix(origen, direccion);
+        Vector2Int destino = CoordenadaEnMatrix(origen, direccion, level);
 
         // Comprobar si es un enemigo o espacio en blanco
         if (level[destino.y, destino.x] == 0 || level[destino.y, destino.x] >= WorldGenerator.enemysStart)
@@ -264,7 +151,7 @@ public class WorldController : MonoBehaviour
             movimientos.Add(new Movimiento(player, origen, direccion, 0));
 
             // Compruebo si choco contra un cofre o algo
-            CompruebaIteracciones(CoordenadaEnMatrix(origen, direccion));
+            CompruebaIteracciones(CoordenadaEnMatrix(origen, direccion, level));
         }
     }
 
@@ -282,14 +169,33 @@ public class WorldController : MonoBehaviour
 
             if (enemy)
             {
-                Vector2Int mov = enemy.DameMovimiento();
-                if (mov != new Vector2Int(0,0))
+                if (enemy.type == 2)
                 {
-                    movimientos.Add(new Movimiento(objeto, enemy.posicion, mov, 1 + enemy.type));
+                    switch (enemy.QueHago())
+                    {
+                        case 1:
+                            combatController.CompruebaDisparos(enemy);
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 else
                 {
-                    CompruebaDisparos(enemy);
+                    Vector2Int mov = enemy.DameMovimiento();
+                    if (mov != new Vector2Int(0, 0))
+                    {
+                        movimientos.Add(new Movimiento(objeto, enemy.posicion, mov, 1 + enemy.type));
+                    }
+                    else
+                    {
+                        combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level);
+                        combatController.CompruebaDisparos(enemy);
+                    }
                 }
             }
             else if (disparable)
@@ -300,9 +206,9 @@ public class WorldController : MonoBehaviour
     }
 
 
-    Vector2Int CoordenadaEnMatrix(Vector2Int origen, Vector2Int direccion)
+    public static Vector2Int CoordenadaEnMatrix(Vector2Int origen, Vector2Int direccion, int[,] level_)
     {
-        Vector2Int matrixPos = new Vector2Int(origen.x, level.GetLength(0) - origen.y);
+        Vector2Int matrixPos = new Vector2Int(origen.x, level_.GetLength(0) - origen.y);
         Vector2Int moveDir = new Vector2Int(direccion.x, -direccion.y);
         return matrixPos + moveDir;
     }
@@ -316,7 +222,7 @@ public class WorldController : MonoBehaviour
 
             foreach (GameObject go in worldObjects)
             {
-                if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0)) == posicion)
+                if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0), level) == posicion)
                 {
                     destroyObjects.Add(go);
                 }
@@ -348,27 +254,5 @@ public class WorldController : MonoBehaviour
         addObjects.Clear();
 
         worldObjects.RemoveAll(obj => obj == null);
-    }
-
-
-    void GeneraArma(Vector3 pos, Vector2Int dir, int type)
-    {
-        Vector2 desplazamiento =
-            new Vector2(
-                dir.x * GameManager.grid_x_scale,
-                dir.y * GameManager.grid_y_scale
-                ) / 2;
-
-        Vector3 newPos = new Vector3(
-            pos.x + dir.x,
-            pos.y + dir.y,
-            0
-        );
-
-        // Crear una rotación en el eje Z (2D)
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(0, 0, angle);
-
-        Instantiate(listaWeapons[type], newPos, rotation, tilemap.transform);
     }
 }

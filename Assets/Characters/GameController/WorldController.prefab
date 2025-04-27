@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1384619271022663231}
   - component: {fileID: 7659334998131880240}
+  - component: {fileID: 8760186338589018626}
+  - component: {fileID: 8852395988985370703}
+  - component: {fileID: 1481748620461581839}
   m_Layer: 0
   m_Name: WorldController
   m_TagString: Untagged
@@ -49,3 +52,57 @@ MonoBehaviour:
   - lvl1.txt
   - lvl2.txt
   - lvl3.txt
+  block_tile_list:
+  - {fileID: 11400000, guid: 76043715e93fd014ea10932bbabb2f32, type: 2}
+  - {fileID: 11400000, guid: e8febba128af38446b3343c1113759e4, type: 2}
+  - {fileID: 11400000, guid: bdf18dfdf708d294ca5f1c7b4ed42569, type: 2}
+  spawneable_items_list:
+  - {fileID: 3176347139031234948, guid: 8204a6359692a524bb02e9539af39817, type: 3}
+  spawneable_enemy_list:
+  - {fileID: 4387744134788574282, guid: 38d4d15397c854745a400ef72422f0ca, type: 3}
+  - {fileID: 7249687797235768162, guid: 5a37e919d365f7c4c92d514288ef961f, type: 3}
+  - {fileID: 9119919642883023939, guid: 45f0c9d03484cc648bda20bc841c7b54, type: 3}
+  playerGO: {fileID: 104738341895414252, guid: 930f04eb28d4c1f4298395747ead34cd, type: 3}
+  objectsInScene: []
+  player: {fileID: 0}
+--- !u!114 &8760186338589018626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6846729894102715596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 160973c2598d1464fbeda56f5003dcef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8852395988985370703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6846729894102715596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0062e3e150af89e48b60361f1d95c9b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disparables:
+  - {fileID: 6926615105246052733, guid: ca1e9e4e93f112b4786ac1874a2e9528, type: 3}
+--- !u!114 &1481748620461581839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6846729894102715596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ad6dd32effa8143a5c4874d72ae6d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  listaWeapons:
+  - {fileID: 8594680385037668760, guid: fdc338b8792656f48ab8e197101e2170, type: 3}
+  - {fileID: 938051291521329666, guid: a8e5bb7cb4fd4e44bbc1b1d517f4a7fd, type: 3}

@@ -35,6 +35,12 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
     public int cadenciaDisparo = 3;
     public int indiceDisparo = 0;
 
+    // Para boss
+    int maxDisparos = 3;
+    public int contadorDisparos = 0;
+    GameObject enemigoSpawnear;
+    int accionActual = 0;
+
     private void Awake()
     {
         indiceMovimiento = 0;
@@ -94,5 +100,43 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
                 level[y, x] = 0;
             }
         }
+    }
+
+
+    public int QueHago()
+    {
+        // 0 No hagas nada, 1 dispara, 2 spawnea, 3 muevete
+        int accion = 0;
+        
+        // Si es 0 dispara, si es 1 spawnea, si es 2 se mueve
+        if (accionActual == 0)
+        {
+            if (indiceDisparo < cadenciaDisparo)
+            {
+                indiceDisparo++;
+            }
+            else
+            {
+                accion = 1;
+
+                indiceDisparo = 0;
+                contadorDisparos++;
+
+                if (contadorDisparos >= maxDisparos)
+                {
+                    contadorDisparos = 0;
+                    //accionActual++;
+                }
+            }
+        }else if (accionActual == 1)
+        {
+            accion = 2;
+        }
+        else
+        {
+            accion = 3;
+        }
+
+        return accion;
     }
 }
