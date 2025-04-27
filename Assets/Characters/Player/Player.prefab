@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 949bd65a8bbc8714e872a3e6d01684d7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -116,7 +116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87756dfa53d9b884f8040b0bff0fdb7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponType: 0
+  maxHp: 10
   hp: 10
+  weaponType: 0
   coins: 0
   damage: 1
+  maxSplashEffect: 1
