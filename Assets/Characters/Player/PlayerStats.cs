@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -15,7 +16,6 @@ public class PlayerStats : MonoBehaviour, Combat
     public int damage = 1;
 
     /* Damage Effect */
-    Renderer renderer;
     Material material;
     float tick;
     Material splashDamage;
@@ -29,8 +29,7 @@ public class PlayerStats : MonoBehaviour, Combat
     void Start()
     {
         ui = GameObject.Find("UI").GetComponent<BaseUi>();
-        renderer = GetComponent<Renderer>();
-        material = renderer.material;
+        material = GetComponent<Renderer>().material;
         canvasplayer = GameObject.Find("UI").GetComponent<Canvas>();
         UnityEngine.Canvas[] childCanvases = canvasplayer.GetComponentsInChildren<Canvas>(true);
         foreach (Canvas canvas in childCanvases)
@@ -78,7 +77,7 @@ public class PlayerStats : MonoBehaviour, Combat
                 ui.CambiaMonedas(coins);
                 break;
             case 1:
-                coins += 5;
+                SceneManager.LoadScene(sceneBuildIndex: 0);
                 break;
             default:
                 break;

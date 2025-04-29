@@ -18639,6 +18639,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: WorldController
       objectReference: {fileID: 0}
+    - target: {fileID: 7659334998131880240, guid: 74050f150416af141a73a86234a141d5, type: 3}
+      propertyPath: spawneable_items_list.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7659334998131880240, guid: 74050f150416af141a73a86234a141d5, type: 3}
+      propertyPath: 'spawneable_items_list.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7590423850529416069, guid: 94a33e576d8ff614088bb66d920ae6c5, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
