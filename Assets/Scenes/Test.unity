@@ -527,7 +527,7 @@ Transform:
   m_GameObject: {fileID: 1521065160}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 20, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18639,14 +18639,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: WorldController
       objectReference: {fileID: 0}
-    - target: {fileID: 7659334998131880240, guid: 74050f150416af141a73a86234a141d5, type: 3}
-      propertyPath: spawneable_items_list.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7659334998131880240, guid: 74050f150416af141a73a86234a141d5, type: 3}
-      propertyPath: 'spawneable_items_list.Array.data[1]'
-      value: 
-      objectReference: {fileID: 7590423850529416069, guid: 94a33e576d8ff614088bb66d920ae6c5, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
