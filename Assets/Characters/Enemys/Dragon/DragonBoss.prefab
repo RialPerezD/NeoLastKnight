@@ -103,6 +103,11 @@ MonoBehaviour:
   damage: 0
   hp: 0
   type: 1
-  movimientos: 
+  range: 0
+  movimientos: 02000000020000000200000002000000020000000000000000000000000000000000000000000000000000000000000000000000020000000200000002000000
   posicion: {x: 0, y: 0}
   indiceMovimiento: 0
+  cadenciaDisparo: 3
+  indiceDisparo: 0
+  generated: 0
+  contadorDisparos: 0

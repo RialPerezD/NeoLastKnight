@@ -35,6 +35,8 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
     public int cadenciaDisparo = 3;
     public int indiceDisparo = 0;
 
+    public bool generated = false;
+
     // Para boss
     int maxDisparos = 3;
     public int contadorDisparos = 0;
@@ -107,7 +109,7 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
     {
         // 0 No hagas nada, 1 dispara, 2 spawnea, 3 muevete
         int accion = 0;
-        
+
         // Si es 0 dispara, si es 1 spawnea, si es 2 se mueve
         if (accionActual == 0)
         {
@@ -125,15 +127,21 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
                 if (contadorDisparos >= maxDisparos)
                 {
                     contadorDisparos = 0;
-                    //accionActual++;
+                    accionActual++;
                 }
             }
         }else if (accionActual == 1)
         {
             accion = 2;
+            accionActual++;
         }
         else
         {
+            if (indiceMovimiento == movimientos.Count - 1)
+            {
+                indiceMovimiento = -1;
+                accionActual = 0;
+            }
             accion = 3;
         }
 

@@ -14,11 +14,11 @@ public class ShootManager : MonoBehaviour
         for (int i = -enemy.range; i <= enemy.range; i++)
         {
             Vector2Int compruebaX = new Vector2Int(
-                Mathf.Clamp(actualPos.x + i, 0, WorldGenerator.worldWidth),
+                Mathf.Clamp(actualPos.x + i, 0, WorldGenerator.worldWidth - 1),
                 actualPos.y);
             Vector2Int compruebaY = new Vector2Int(
                 actualPos.x,
-                Mathf.Clamp(actualPos.y + i, 0, level.Length/WorldGenerator.worldWidth));
+                Mathf.Clamp(actualPos.y + i, 0, (level.Length/WorldGenerator.worldWidth) - 1));
 
             Vector2Int futuroPos = new Vector2Int(0, 0);
             bool disparo = false;
@@ -53,6 +53,8 @@ public class ShootManager : MonoBehaviour
         GameObject disparable;
 
         Vector2Int ubicacionSpawn = posicion + dir;
+        if (level[ubicacionSpawn.y, ubicacionSpawn.x] != 0) return null;
+
         level[ubicacionSpawn.y, ubicacionSpawn.x] = WorldGenerator.projectileStart;
 
         Vector3 UbicacionMundo = new Vector3(

@@ -86,7 +86,27 @@ public class WorldController : MonoBehaviour
         bool playerMueveCam = false;
         combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level);
 
-        if (combatController.ComprobarCombate(newMatrixPos, mov, matrixPos))
+        bool hayCombate = true;
+        if (mov.padre_ != 3)
+        {
+            hayCombate = combatController.ComprobarCombate(newMatrixPos, mov, matrixPos);
+        }
+        else
+        {
+            for (int i = -1; i < 1; i++)
+            {
+                if (!combatController.ComprobarCombate(
+                    new Vector2Int(newMatrixPos.x + moveDir.x, newMatrixPos.y + i + moveDir.y),
+                    mov,
+                    matrixPos
+                    ))
+                {
+                    hayCombate = false;
+                }
+            }
+        }
+
+        if (hayCombate)
         {
             if (mov.padre_ == 0)
             {
@@ -94,8 +114,20 @@ public class WorldController : MonoBehaviour
                 if (!playerMueveCam) player.GetComponent<PlayerMovement>().FuerzaCentroCamara();
             }
 
-            level[newMatrixPos.y, newMatrixPos.x] = level[matrixPos.y, matrixPos.x];
-            level[matrixPos.y, matrixPos.x] = 0;
+            if (mov.padre_ != 3)
+            {
+                level[newMatrixPos.y, newMatrixPos.x] = level[matrixPos.y, matrixPos.x];
+                level[matrixPos.y, matrixPos.x] = 0;
+            }
+            else
+            {
+                Enemy.LimpiaMascaraTipo(matrixPos, 0, level);
+                List<Vector2Int> posiciones = Enemy.GeneraMascaraTipo(newMatrixPos, 0);
+                foreach (Vector2Int vec in posiciones)
+                {
+                    level[vec.y, vec.x] = WorldGenerator.enemysStart + 2;
+                }
+            }
 
             int esLanzable = (mov.padre_ >= 50) ? -1 : 1;
             mov.actor_.GetComponent<UpdatePosition>().UpdatePosicion(
@@ -171,14 +203,23 @@ public class WorldController : MonoBehaviour
             {
                 if (enemy.type == 2)
                 {
+                    combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level);
                     switch (enemy.QueHago())
                     {
                         case 1:
                             combatController.CompruebaDisparos(enemy);
                             break;
                         case 2:
+                            List<GameObject> objetosCreados = combatController.GeneraEnemigos(enemy, worldGenerator); ;
+                            foreach (var obj in objetosCreados)
+                            {
+                                Vector2Int ubi = obj.GetComponent<Enemy>().posicion;
+                                addObjects.Add(obj);
+                            }
                             break;
                         case 3:
+                            Vector2Int mov = enemy.DameMovimiento();
+                            movimientos.Add(new Movimiento(objeto, enemy.posicion, mov, 1 + enemy.type));
                             break;
                         default:
                             break;

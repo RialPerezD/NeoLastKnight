@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -52,12 +53,17 @@ public class CombatController : MonoBehaviour
         }
         else if (mov.padre_ >= 50 && numObjective != 0)
         {
+            // Esto es proyectil
             if (numObjective == WorldGenerator.playerNumber)
             {
                 CombateProyectilJugador(mov);
                 level[matrixPos.y, matrixPos.x] = 0;
             }
-            else if (numObjective <= WorldGenerator.objectsStart)
+            else if (numObjective <= WorldGenerator.objectsStart
+                ||
+                numObjective >= WorldGenerator.projectileStart
+                ||
+                numObjective == WorldGenerator.enemysStart+1)
             {
                 level[matrixPos.y, matrixPos.x] = 0;
                 destroyObjects.Add(mov.actor_);
@@ -65,6 +71,7 @@ public class CombatController : MonoBehaviour
         }
         else if (mov.padre_ >= 1 && numObjective == WorldGenerator.playerNumber)
         {
+            // Esto es enemigos
             ComabteEnemigoPlayer(mov);
             Vector3 posicion = mov.actor_.transform.position;
             if (mov.padre_ == 1) posicion.y -= GameManager.grid_y_scale / 4.0f;
@@ -72,9 +79,11 @@ public class CombatController : MonoBehaviour
         }
         else
         {
+            // si no hay combate devolvemos true
             return true;
         }
 
+        // si se combatio devolvemos false
         return false;
     }
 
@@ -150,7 +159,14 @@ public class CombatController : MonoBehaviour
         {
             foreach (GameObject go in worldObjects)
             {
-                if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0), level) == futurePlayerPos)
+                Vector2Int pos = CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0), level);
+                Enemy enemy = go.GetComponent<Enemy>();
+                if (enemy)
+                {
+                    if (enemy.generated) pos = enemy.posicion;
+                }
+
+                if (pos == futurePlayerPos)
                 {
                     if (go.GetComponent<Combat>().RecibeDamage(player.GetComponent<PlayerStats>().damage))
                     {
@@ -163,13 +179,44 @@ public class CombatController : MonoBehaviour
     }
 
 
+    public List<GameObject> GeneraEnemigos(Enemy enemy, WorldGenerator worldGenerator)
+    {
+        Vector2Int boss = enemy.posicion;
+        List<Vector2Int> matrixPos = new List<Vector2Int>();
+        matrixPos.Add(new Vector2Int(boss.x - 4, level.GetLength(0) - boss.y + 1));
+        matrixPos.Add(new Vector2Int(boss.x + 4, level.GetLength(0) - boss.y + 2));
+        List<Vector3> worldPos = new List<Vector3>();
+        worldPos.Add(new Vector3(
+            -4 * GameManager.grid_x_scale + enemy.transform.position.x,
+            -2 * GameManager.grid_y_scale + enemy.transform.position.y + 0.9f,
+            0
+        ));
+        worldPos.Add(new Vector3(
+            4 * GameManager.grid_x_scale + enemy.transform.position.x,
+            -3 * GameManager.grid_y_scale + enemy.transform.position.y + 0.9f,
+            0
+        ));
+
+        return worldGenerator.GeneraObjetos(matrixPos, worldPos, 76, tilemap, level);
+    }
+
+
     public void CompruebaDisparos(Enemy enemy)
     {
         if (enemy.type == 1)
         {
+            // Planta
             if (enemy.indiceDisparo == 0)
             {
-                Vector2Int posicion = CoordenadaEnMatrix(enemy.posicion, new Vector2Int(0, 0), level);
+                Vector2Int posicion;
+                if (enemy.generated)
+                {
+                    posicion = enemy.posicion;
+                }
+                else
+                {
+                    posicion = CoordenadaEnMatrix(enemy.posicion, new Vector2Int(0, 0), level);
+                }
                 GameObject disparable = shootManager.EnemigoCompruebaDisparo(posicion, enemy, level, tilemap);
 
                 if (disparable)
@@ -184,6 +231,7 @@ public class CombatController : MonoBehaviour
             }
         }else if (enemy.type == 2)
         {
+            // Boss dragon
             int lugar = enemy.contadorDisparos - 1;
 
             for (int i = -1; i<2; i++)
@@ -192,6 +240,12 @@ public class CombatController : MonoBehaviour
                 Vector3 wordPos = enemy.transform.position;
                 wordPos.x += ((4 * lugar) + i) * GameManager.grid_x_scale;
                 wordPos.y -= GameManager.grid_y_scale * 0.5f;
+
+                if (lugar != 0)
+                {
+                    wordPos.y += GameManager.grid_y_scale;
+                    posicion.y -= 1;
+                }
 
                 addObjects.Add(shootManager.CreaDisparo(new Vector2Int(0, 1), posicion, wordPos, enemy.damage, level, tilemap));
             }

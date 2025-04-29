@@ -82,6 +82,7 @@ public class WorldGenerator : MonoBehaviour
                 else
                 {
                     float yCorrection = 0f;
+                    float xCorrection = 0f;
                     if (cellValue == enemysStart) yCorrection = GameManager.grid_y_scale * 0.3f;
                     else if (cellValue == enemysStart + 2)
                     {
@@ -97,6 +98,7 @@ public class WorldGenerator : MonoBehaviour
                         yCorrection = 0.9f;
                     }
 
+                    objectPos.x += xCorrection;
                     objectPos.y += yCorrection;
 
                     GameObject go = Instantiate(spawneable_enemy_list[cellValue - enemysStart], objectPos, Quaternion.identity, tilemap.transform);
@@ -108,6 +110,44 @@ public class WorldGenerator : MonoBehaviour
         }
     }
 
+
+    public List<GameObject> GeneraObjetos(
+        List<Vector2Int> matPos,
+        List<Vector3> wolrdPos,
+        int number,
+        Tilemap tilemap,
+        int[,] level)
+    {
+        List<GameObject> objetosCreados = new List<GameObject>();
+        for (int i = 0; i< matPos.Count; i++)
+        {
+            if (level[(int)matPos[i].y, (int)matPos[i].x] != number)
+            {
+                level[(int)matPos[i].y, (int)matPos[i].x] = number;
+
+                GameObject go;
+                if (number >= objectsStart && number < enemysStart)
+                {
+                    go = Instantiate(spawneable_items_list[number - objectsStart], wolrdPos[i], Quaternion.identity, tilemap.transform);
+                }
+                else
+                {
+                    go = Instantiate(spawneable_enemy_list[number - enemysStart], wolrdPos[i], Quaternion.identity, tilemap.transform);
+                }
+
+                if (go.GetComponent<Enemy>())
+                {
+                    go.GetComponent<Enemy>().posicion = matPos[i];
+                    go.GetComponent<Enemy>().type = number - enemysStart;
+                    go.GetComponent<Enemy>().generated = true;
+                }
+
+                objetosCreados.Add(go);
+            }
+        }
+
+        return objetosCreados;
+    }
 
 
     public void CombineMatricesVertically()
