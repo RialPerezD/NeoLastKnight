@@ -130,3 +130,7 @@ MonoBehaviour:
   movimientos: 
   posicion: {x: 0, y: 0}
   indiceMovimiento: 0
+  cadenciaDisparo: 5
+  indiceDisparo: 0
+  generated: 0
+  contadorDisparos: 0

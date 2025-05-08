@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class WorldController : MonoBehaviour
 {
@@ -33,6 +32,9 @@ public class WorldController : MonoBehaviour
     GameObject player;
 
     List<Movimiento> movimientos;
+
+    bool esNivel = true;
+    int ajusteVertical = 0;
 
     void Awake()
     {
@@ -110,8 +112,8 @@ public class WorldController : MonoBehaviour
         {
             if (mov.padre_ == 0)
             {
-                playerMueveCam = newMatrixPos.y >= 6 ? true : false;
-                if (!playerMueveCam) player.GetComponent<PlayerMovement>().FuerzaCentroCamara();
+                playerMueveCam = newMatrixPos.y >= (6 - ajusteVertical) ? true : false;
+                if (!playerMueveCam && esNivel) player.GetComponent<PlayerMovement>().FuerzaCentroCamara();
             }
 
             if (mov.padre_ != 3)
@@ -295,5 +297,13 @@ public class WorldController : MonoBehaviour
         addObjects.Clear();
 
         worldObjects.RemoveAll(obj => obj == null);
+    }
+
+
+    public void UpdateaEsNivel(bool esNiv, int ajuste)
+    {
+        esNivel = esNiv;
+        ajusteVertical = ajuste;
+        player.GetComponent<PlayerMovement>().esNivel = esNiv;
     }
 }

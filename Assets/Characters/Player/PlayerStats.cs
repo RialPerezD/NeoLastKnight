@@ -24,7 +24,7 @@ public class PlayerStats : MonoBehaviour, Combat
     bool Splash = false;
     public float maxSplashEffect = 2;
 
-
+    GameManager manager;
 
     void Start()
     {
@@ -41,6 +41,8 @@ public class PlayerStats : MonoBehaviour, Combat
                 break;
             }
         }
+
+        manager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     void Update()
@@ -77,7 +79,10 @@ public class PlayerStats : MonoBehaviour, Combat
                 ui.CambiaMonedas(coins);
                 break;
             case 1:
-                SceneManager.LoadScene(sceneBuildIndex: 0);
+                manager.CargarPueblo();
+                break;
+            case 2:
+                manager.CargarNivel();
                 break;
             default:
                 break;

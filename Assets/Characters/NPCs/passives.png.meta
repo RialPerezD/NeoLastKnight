@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: 0eb010540f75ecf4bbe6f92f9d753e9e
+guid: 59fdbcef33adad44b8aef7a31dd06800
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1619451203462400347
-    second: TerrainAssets_0
+      213: -692003313702210500
+    second: MiniVillagerMan_0
+  - first:
+      213: -1267933262198126706
+    second: MiniVillagerMan_1
+  - first:
+      213: 7613916535989433153
+    second: MiniVillagerMan_2
+  - first:
+      213: 1081737609636406025
+    second: MiniVillagerMan_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +60,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 35
+  spritePixelsToUnits: 10
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -139,89 +148,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: TerrainAssets_0
+      name: MiniVillagerMan_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1015
-        width: 64
-        height: 64
+        x: 5
+        y: 7
+        width: 15
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: fdd7daec163219047b13d0d695819188
-      internalID: -1330610880
+      spriteID: c34f26f07a28566f0800000000000000
+      internalID: -692003313702210500
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TerrainAssets_1
+      name: MiniVillagerMan_1
       rect:
         serializedVersion: 2
-        x: 67
-        y: 1015
-        width: 64
-        height: 64
+        x: 37
+        y: 7
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 9206fd3f9eb71f842a03358bd8790a7a
-      internalID: -1621454181
+      spriteID: e8747c37a65676ee0800000000000000
+      internalID: -1267933262198126706
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TerrainAssets_2
+      name: MiniVillagerMan_2
       rect:
         serializedVersion: 2
-        x: 134
-        y: 1015
-        width: 64
-        height: 64
+        x: 69
+        y: 7
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 0afc6c7761e194e49ad5394a3c6c4deb
-      internalID: 86867560
+      spriteID: 1437f1dcfb01aa960800000000000000
+      internalID: 7613916535989433153
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: TerrainAssets_3
+      name: MiniVillagerMan_3
       rect:
         serializedVersion: 2
-        x: 201
-        y: 1015
-        width: 64
-        height: 64
+        x: 101
+        y: 7
+        width: 15
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 8351bbc56706f73428b347310c13160a
-      internalID: 1559103620
+      spriteID: 903ee8aef9a130f00800000000000000
+      internalID: 1081737609636406025
       vertices: []
       indices: 
       edges: []
@@ -230,7 +239,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 94c6421fcc9d0204cb3b831ae5d2b3ec
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -240,10 +249,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      TerrainAssets_0: -1330610880
-      TerrainAssets_1: -1621454181
-      TerrainAssets_2: 86867560
-      TerrainAssets_3: 1559103620
+      MiniVillagerMan_0: -692003313702210500
+      MiniVillagerMan_1: -1267933262198126706
+      MiniVillagerMan_2: 7613916535989433153
+      MiniVillagerMan_3: 1081737609636406025
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

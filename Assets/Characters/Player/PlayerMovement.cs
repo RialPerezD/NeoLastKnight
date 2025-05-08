@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
 
     public int alturaActual = 1;
     int alturaMovCam = 3;
-    int limiteInferior = -1;
+    int limiteInferior = 0;
     bool camaraForzada = false;
 
     // Swipe variables
@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
     Vector3 touch_delta;
     bool is_touching = false;
     float lapse = 0.0f;
+
+    public bool esNivel = false;
 
     private void Awake()
     {
@@ -39,6 +41,8 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
         {
             if (inputDirection.y > 0 || alturaActual + inputDirection.y >= limiteInferior)
             {
+                //if (!esNivel && alturaActual + inputDirection.y >= 5) return;
+
                 lastInputDirection = inputDirection;
                 if (alturaActual == alturaMovCam && inputDirection.y < 0) alturaActual -= 1;
                 if (alturaActual + inputDirection.y <= alturaMovCam) alturaActual = alturaActual + inputDirection.y;
@@ -82,6 +86,7 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
             return new Vector2Int(1, 0);     // Derecha
 
         return Vector2Int.zero; // No se presionó ninguna tecla
+#endif
     }
 
     Vector2Int GetSwipeInput()

@@ -247,20 +247,23 @@ public class WorldGenerator : MonoBehaviour
 
         layout.Add(roomDict[firstKey]); // Primera sala
 
-        List<int> middleKeys = keys.GetRange(1, keys.Count - 2); // Salas intermedias
-
-        if (randomize)
+        if (roomDict.Count != 1)
         {
-            ShuffleList(middleKeys);
-        }
+            List<int> middleKeys = keys.GetRange(1, keys.Count - 2); // Salas intermedias
 
-        foreach (int key in middleKeys)
-        {
-            layout.Add(roomDict[key]);
-        }
+            if (randomize)
+            {
+                ShuffleList(middleKeys);
+            }
 
-        if (keys.Count > 1)
-            layout.Add(roomDict[lastKey]); // Ultima sala
+            foreach (int key in middleKeys)
+            {
+                layout.Add(roomDict[key]);
+            }
+
+            if (keys.Count > 1)
+                layout.Add(roomDict[lastKey]); // Ultima sala
+        }
 
         level_layout_positions = layout;
 
