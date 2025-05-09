@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reset_position: -400
   beatsPerMinute: 100
+  audioSource: {fileID: 0}
 --- !u!82 &-7850975941531099990
 AudioSource:
   m_ObjectHideFlags: 0
@@ -60,7 +61,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 8e0f5d9f92ef75c4cac48ce846ca14a5, type: 3}
   m_Resource: {fileID: 8300000, guid: 8e0f5d9f92ef75c4cac48ce846ca14a5, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.188
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 1
   Mute: 0

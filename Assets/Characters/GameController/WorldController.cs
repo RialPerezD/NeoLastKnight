@@ -278,6 +278,8 @@ public class WorldController : MonoBehaviour
 
             foreach (GameObject go in worldObjects)
             {
+                if (go == null) continue;
+
                 if (go.GetComponent<UpdatePosition>() != null)
                 {
                     if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0), level) == posicion)

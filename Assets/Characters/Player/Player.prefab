@@ -104,7 +104,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacle_tilemap: {fileID: 0}
   posicion: {x: 0, y: 0}
-  audioSource: {fileID: 3607313781009196783}
+  listaSonidos:
+  - {fileID: 8300000, guid: d819a258630e0ac439cb8bd7569e2a63, type: 3}
   alturaActual: 1
   esNivel: 0
 --- !u!114 &-4481129879953941459
@@ -129,6 +130,9 @@ MonoBehaviour:
   damage: 1
   bowDamage: 0
   maxSplashEffect: 1
+  particulasMonedas: {fileID: 8941284338732811748, guid: e7af2194e86fc5d49bdb2d122e857d8c, type: 3}
+  listaSonidos:
+  - {fileID: 8300000, guid: ef032ff49077a4d4f8d3e3fc5f6291b5, type: 3}
 --- !u!82 &3607313781009196783
 AudioSource:
   m_ObjectHideFlags: 0
@@ -142,13 +146,13 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: d819a258630e0ac439cb8bd7569e2a63, type: 3}
   m_Resource: {fileID: 8300000, guid: d819a258630e0ac439cb8bd7569e2a63, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.209
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

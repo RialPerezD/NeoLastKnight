@@ -1,10 +1,7 @@
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class BaseUi : MonoBehaviour
@@ -24,6 +21,8 @@ public class BaseUi : MonoBehaviour
 
     AudioSource audioSource;
     public List<AudioClip> listaSonidos;
+
+    public bool actualizaMonedas = false;
 
     void Start()
     {
@@ -54,6 +53,12 @@ public class BaseUi : MonoBehaviour
             {
                 stats = player.GetComponent<PlayerStats>();
             }
+        }
+
+        if (actualizaMonedas)
+        {
+            monedas.text = stats.coins.ToString();
+            actualizaMonedas = false;
         }
     }
 
@@ -137,6 +142,8 @@ public class BaseUi : MonoBehaviour
 
             costeEspada.GetComponent<TextMeshProUGUI>().text = stats.costeSword.ToString();
             costeEspada.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeSword.ToString();
+
+            monedas.text = stats.coins.ToString();
         }
         else if (cosa == 1 && stats.costeBow <= stats.coins)
         {
@@ -147,6 +154,8 @@ public class BaseUi : MonoBehaviour
 
             costeArco.GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
             costeArco.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
+
+            monedas.text = stats.coins.ToString();
         }
         else if (cosa == 2 && stats.costeHp <= stats.coins)
         {
@@ -157,6 +166,8 @@ public class BaseUi : MonoBehaviour
 
             costeHp.GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
             costeHp.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
+
+            monedas.text = stats.coins.ToString();
         }
         else
         {

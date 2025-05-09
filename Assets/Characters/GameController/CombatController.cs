@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Tilemaps;
 using static WorldController;
 
@@ -18,9 +19,13 @@ public class CombatController : MonoBehaviour
 
     public List<GameObject> listaWeapons;
 
+    AudioSource audioSource;
+    public List<AudioClip> listaSonidos;
+
     private void Start()
     {
         shootManager = GetComponent<ShootManager>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Actualiza(List<GameObject> worldObjects_,
@@ -94,6 +99,8 @@ public class CombatController : MonoBehaviour
 
     void GeneraArma(Vector3 pos, Vector2Int dir, int type)
     {
+        audioSource.PlayOneShot(listaSonidos[type]);
+
         Vector2 desplazamiento =
             new Vector2(
                 dir.x * GameManager.grid_x_scale,

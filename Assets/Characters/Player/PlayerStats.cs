@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerStats : MonoBehaviour, Combat
 {
@@ -32,6 +34,11 @@ public class PlayerStats : MonoBehaviour, Combat
 
     GameManager manager;
 
+    public GameObject particulasMonedas;
+
+    AudioSource audioSource;
+    public List<AudioClip> listaSonidos;
+
     void Start()
     {
         ui = GameObject.Find("UI").GetComponent<BaseUi>();
@@ -51,6 +58,8 @@ public class PlayerStats : MonoBehaviour, Combat
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         hp = maxHp;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -85,6 +94,7 @@ public class PlayerStats : MonoBehaviour, Combat
             case 0:
                 coins += 5;
                 ui.CambiaMonedas(coins);
+                SpawnParticles();
                 break;
             case 1:
                 manager.CargarPueblo();
@@ -116,5 +126,23 @@ public class PlayerStats : MonoBehaviour, Combat
         }
 
         return false;
+    }
+
+    public void SpawnParticles()
+    {
+        audioSource.PlayOneShot(listaSonidos[0]);
+
+        Vector3 pos = transform.position;
+        pos.y += 0.5f;
+        GameObject particles = Instantiate(particulasMonedas, pos, Quaternion.identity);
+
+        if (particles != null)
+        {
+            Destroy(particles, 1); // Limpia el objeto
+        }
+        else
+        {
+            Debug.LogWarning("El prefab no tiene un ParticleSystem.");
+        }
     }
 }

@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public int actualLevel;
     WorldController worldController;
     PlayerStats stats;
+    BaseUi ui;
 
     int siguienteNivel = 0;
 
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour
     void UpdateReferences()
     {
         if (worldController == null) worldController = GameObject.Find("WorldController").GetComponent<WorldController>();
+        if(ui == null) ui = GameObject.Find("UI").GetComponent<BaseUi>();
     }
 
     public void LanzaBeat()
@@ -88,7 +90,13 @@ public class GameManager : MonoBehaviour
     {
         UpdateReferences();
         worldController?.LoadLevel(siguienteNivel);
-        if(siguienteNivel == 1) worldController.UpdateaEsNivel(false, 2);
+
+        if (siguienteNivel == 1)
+        {
+            worldController.UpdateaEsNivel(false, 2);
+            ui.actualizaMonedas = true;
+        }
+
         SceneManager.sceneLoaded -= OnSceneLoaded; // Desuscribirse para evitar múltiples llamadas
     }
 

@@ -26,7 +26,7 @@ public class SetVolumeSlide : MonoBehaviour
         }
         if (soundslider && lastvol != soundslider.value * 0.01f)
         {
-            audio_source.volume = soundslider.value * 0.01f;
+            audio_source.volume = soundslider.value * 0.005f;
             lastvol = soundslider.value * 0.01f;
         }
     }

@@ -101,7 +101,7 @@ public class BeatController : MonoBehaviour
 
     public bool PuedoMoverme()
     {
-        if (timer < 0.3f)
+        if (timer < 0.4f)
         {
             if(debug)print("Bien "+timer);
             return true;

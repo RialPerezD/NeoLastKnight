@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,7 +14,8 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
     Camera myCamera;
 
     //input wrong audio 
-    public AudioSource audioSource;
+    AudioSource audioSource;
+    public List<AudioClip> listaSonidos;
     private bool lastmoveefective = false;
 
     public int alturaActual = 1;
@@ -35,6 +37,7 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
         beatController = GameObject.Find("BeatController").GetComponent<BeatController>();
         worldController = GameObject.Find("WorldController").GetComponent<WorldController>();
         myCamera = GameObject.Find("Camera").GetComponent<Camera>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -58,7 +61,7 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
         {
             transform.rotation = Quaternion.Euler(0, 0, 90);
             lastmoveefective = false;
-            audioSource.Play();
+            audioSource.PlayOneShot(listaSonidos[0]);
         }
     }
 
