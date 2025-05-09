@@ -41,8 +41,6 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
         {
             if (inputDirection.y > 0 || alturaActual + inputDirection.y >= limiteInferior)
             {
-                //if (!esNivel && alturaActual + inputDirection.y >= 5) return;
-
                 lastInputDirection = inputDirection;
                 if (alturaActual == alturaMovCam && inputDirection.y < 0) alturaActual -= 1;
                 if (alturaActual + inputDirection.y <= alturaMovCam) alturaActual = alturaActual + inputDirection.y;

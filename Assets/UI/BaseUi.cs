@@ -1,12 +1,17 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BaseUi : MonoBehaviour
 {
+    PlayerStats stats;
     Slider barraVida;
     TextMeshProUGUI monedas;
+    Transform costeEspada;
+    Transform costeArco;
+    Transform costeHp;
     Transform scoreBarra;
 
     public GameObject canvasToActivePause;
@@ -19,6 +24,11 @@ public class BaseUi : MonoBehaviour
         barraVida = transform.Find("HealthBar").GetComponent<Slider>();
         scoreBarra = transform.Find("Score").GetComponent<Transform>();
         monedas = scoreBarra.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+
+        costeEspada = transform.Find("Equipment").Find("Buttons").Find("Sword").Find("center")
+                .Find("Titulo");
+
+        stats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
 
         inicioBarra = scoreBarra.position;
     }
@@ -58,7 +68,7 @@ public class BaseUi : MonoBehaviour
 
     IEnumerator MoverBarraMonedas(Vector3 origen, float cantidad, bool volver)
     {
-        Vector3 destino = origen + new Vector3(cantidad,0,0);
+        Vector3 destino = origen + new Vector3(cantidad, 0, 0);
         float duracion = GameManager.animDuration;
         float tiempo = 0f;
 
@@ -76,7 +86,50 @@ public class BaseUi : MonoBehaviour
         if (volver)
         {
             yield return new WaitForSeconds(1f);
-            StartCoroutine(MoverBarraMonedas(scoreBarra.position, - cantidad, false));
+            StartCoroutine(MoverBarraMonedas(scoreBarra.position, -cantidad, false));
+        }
+    }
+
+    public void ActivaTienda(int tipo)
+    {
+        if (tipo == 1)
+        {
+            transform.Find("Armour").gameObject.SetActive(true);
+        }
+        else
+        {
+            transform.Find("Equipment").gameObject.SetActive(true);
+        }
+    }
+
+    public void CompraAlgo(int cosa)
+    {
+        if (cosa == 0 && stats.costeSword <= stats.coins)
+        {
+            stats.coins -= stats.costeSword;
+            stats.costeSword += 10;
+            stats.damage += 1;
+
+            costeEspada.GetComponent<TextMeshProUGUI>().text = stats.costeSword.ToString();
+            costeEspada.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeSword.ToString();
+        }
+        else if (cosa == 1 && stats.costeBow <= stats.coins)
+        {
+            stats.coins -= stats.costeBow;
+            stats.costeBow += 10;
+            stats.bowDamage += 1;
+
+            costeEspada.GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
+            costeEspada.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
+        }
+        else if (cosa == 2 && stats.costeHp <= stats.coins)
+        {
+            stats.coins -= stats.costeHp;
+            stats.costeHp += 10;
+            stats.maxHp += 2;
+
+            costeEspada.GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
+            costeEspada.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
         }
     }
 }

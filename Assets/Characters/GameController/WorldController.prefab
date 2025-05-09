@@ -67,6 +67,8 @@ MonoBehaviour:
   - {fileID: 7249687797235768162, guid: 5a37e919d365f7c4c92d514288ef961f, type: 3}
   - {fileID: 9119919642883023939, guid: 45f0c9d03484cc648bda20bc841c7b54, type: 3}
   playerGO: {fileID: 104738341895414252, guid: 930f04eb28d4c1f4298395747ead34cd, type: 3}
+  equipmentGO: {fileID: 4711792535319781093, guid: ff086e37a888dff45858e0fa529de98e, type: 3}
+  pasivesGO: {fileID: 166432612551493790, guid: 619b4e9bc3729c548b6fa9f9298a9f2b, type: 3}
   objectsInScene: []
   player: {fileID: 0}
 --- !u!114 &8760186338589018626

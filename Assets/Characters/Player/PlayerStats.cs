@@ -1,19 +1,25 @@
-using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 public class PlayerStats : MonoBehaviour, Combat
 {
     BaseUi ui;
 
-    public float maxHp = 10;
     public float hp = 10;
 
     public int weaponType = 0;
+
+    // Estas variables se cargan y descargan, solo esto persiste
     public float coins = 0;
+
+    public float costeHp = 5;
+    public float costeSword = 5;
+    public float costeBow = 5;
+
+    public float maxHp = 10;
+
     public int damage = 1;
+    public int bowDamage = 1;
+    ////////////////////////////////////////////////////////////
 
     /* Damage Effect */
     Material material;
@@ -43,6 +49,8 @@ public class PlayerStats : MonoBehaviour, Combat
         }
 
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        hp = maxHp;
     }
 
     void Update()
@@ -83,6 +91,12 @@ public class PlayerStats : MonoBehaviour, Combat
                 break;
             case 2:
                 manager.CargarNivel();
+                break;
+            case 100:
+                ui.ActivaTienda(0);
+                break;
+            case 101:
+                ui.ActivaTienda(1);
                 break;
             default:
                 break;

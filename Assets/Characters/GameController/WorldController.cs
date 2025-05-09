@@ -174,8 +174,20 @@ public class WorldController : MonoBehaviour
         // Comprobamos si casilla destino esta vacia
         Vector2Int destino = CoordenadaEnMatrix(origen, direccion, level);
 
+        // Si es equipamiento abrimos ese menu
+        if (level[destino.y, destino.x] == WorldGenerator.equipmentNumber)
+        {
+            player.GetComponent<PlayerStats>().Interactua(100);
+            print("equipa");
+        }
+        // Si es pasivas abrimos ese menu
+        else if (level[destino.y, destino.x] == WorldGenerator.pasivesNumber)
+        {
+            player.GetComponent<PlayerStats>().Interactua(101);
+            print("pasiva");
+        }
         // Comprobar si es un enemigo o espacio en blanco
-        if (level[destino.y, destino.x] == 0 || level[destino.y, destino.x] >= WorldGenerator.enemysStart)
+        else if (level[destino.y, destino.x] == 0 || level[destino.y, destino.x] >= WorldGenerator.enemysStart)
         {
             movimientos.Add(new Movimiento(player, origen, direccion, 0));
         }
@@ -243,7 +255,7 @@ public class WorldController : MonoBehaviour
             }
             else if (disparable)
             {
-                movimientos.Add(new Movimiento(objeto, disparable.posicion, disparable.direccion, 50+disparable.type));
+                movimientos.Add(new Movimiento(objeto, disparable.posicion, disparable.direccion, 50 + disparable.type));
             }
         }
     }

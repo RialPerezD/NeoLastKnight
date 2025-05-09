@@ -17,7 +17,10 @@ public class WorldGenerator : MonoBehaviour
     public List<Tile> block_tile_list;                  // El tile para el bloque (el valor del mapa minimo es 1)
     public List<GameObject> spawneable_items_list;      // El objeto a spawnear (el valor del mapa minimo es 50)
     public List<GameObject> spawneable_enemy_list;      // El enemigo a spawnear (el valor del mapa minimo es 75)
+    
     public GameObject playerGO;
+    public GameObject equipmentGO;
+    public GameObject pasivesGO;
 
     public List<GameObject> objectsInScene;
     public GameObject player;
@@ -27,6 +30,9 @@ public class WorldGenerator : MonoBehaviour
     public static int world_y_offset = 9;
 
     public static int playerNumber = 100;
+    public static int equipmentNumber = 48;
+    public static int pasivesNumber = 49;
+
     public static int objectsStart = 50;
     public static int enemysStart = 75;
     public static int projectileStart = 101;
@@ -63,7 +69,17 @@ public class WorldGenerator : MonoBehaviour
                 float yValue = (-y + yOffset + 1) * GameManager.grid_y_scale;
                 Vector3 objectPos = new Vector3((x - world_x_offset) * GameManager.grid_x_scale, yValue, 0);
 
-                if (cellValue < objectsStart)
+                if (cellValue == equipmentNumber)
+                {
+                    GameObject go = Instantiate(equipmentGO, objectPos, Quaternion.identity, tilemap.transform);
+                    objectsInScene.Add(go);
+                }
+                else if (cellValue == pasivesNumber)
+                {
+                    GameObject go = Instantiate(pasivesGO, objectPos, Quaternion.identity, tilemap.transform);
+                    objectsInScene.Add(go);
+                }
+                else if (cellValue < objectsStart && cellValue < equipmentNumber)
                 {
                     tilemap.SetTile(tilePos, block_tile_list[cellValue - 1]);
                 }
@@ -126,7 +142,15 @@ public class WorldGenerator : MonoBehaviour
                 level[(int)matPos[i].y, (int)matPos[i].x] = number;
 
                 GameObject go;
-                if (number >= objectsStart && number < enemysStart)
+                if (number == equipmentNumber)
+                {
+                    go = Instantiate(equipmentGO, wolrdPos[i], Quaternion.identity, tilemap.transform);
+                }
+                else if (number == pasivesNumber)
+                {
+                    go = Instantiate(pasivesGO, wolrdPos[i], Quaternion.identity, tilemap.transform);
+                }
+                else if (number >= objectsStart && number < enemysStart)
                 {
                     go = Instantiate(spawneable_items_list[number - objectsStart], wolrdPos[i], Quaternion.identity, tilemap.transform);
                 }
