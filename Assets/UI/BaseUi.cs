@@ -1,7 +1,10 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class BaseUi : MonoBehaviour
@@ -19,6 +22,9 @@ public class BaseUi : MonoBehaviour
 
     Vector3 inicioBarra;
 
+    AudioSource audioSource;
+    public List<AudioClip> listaSonidos;
+
     void Start()
     {
         barraVida = transform.Find("HealthBar").GetComponent<Slider>();
@@ -28,9 +34,27 @@ public class BaseUi : MonoBehaviour
         costeEspada = transform.Find("Equipment").Find("Buttons").Find("Sword").Find("center")
                 .Find("Titulo");
 
-        stats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
+        costeArco = transform.Find("Equipment").Find("Buttons").Find("Bow").Find("center")
+                .Find("Titulo");
+
+        costeHp = transform.Find("Armour").Find("Buttons").Find("Hp").Find("center")
+                .Find("Titulo");
+
+        audioSource = GetComponent<AudioSource>();
 
         inicioBarra = scoreBarra.position;
+    }
+
+    private void Update()
+    {
+        if (stats == null)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player)
+            {
+                stats = player.GetComponent<PlayerStats>();
+            }
+        }
     }
 
     public void CambiaVida(float vida)
@@ -106,6 +130,7 @@ public class BaseUi : MonoBehaviour
     {
         if (cosa == 0 && stats.costeSword <= stats.coins)
         {
+            audioSource.PlayOneShot(listaSonidos[0]);
             stats.coins -= stats.costeSword;
             stats.costeSword += 10;
             stats.damage += 1;
@@ -115,21 +140,27 @@ public class BaseUi : MonoBehaviour
         }
         else if (cosa == 1 && stats.costeBow <= stats.coins)
         {
+            audioSource.PlayOneShot(listaSonidos[0]);
             stats.coins -= stats.costeBow;
             stats.costeBow += 10;
             stats.bowDamage += 1;
 
-            costeEspada.GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
-            costeEspada.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
+            costeArco.GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
+            costeArco.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
         }
         else if (cosa == 2 && stats.costeHp <= stats.coins)
         {
+            audioSource.PlayOneShot(listaSonidos[0]);
             stats.coins -= stats.costeHp;
             stats.costeHp += 10;
             stats.maxHp += 2;
 
-            costeEspada.GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
-            costeEspada.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
+            costeHp.GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
+            costeHp.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
+        }
+        else
+        {
+            audioSource.PlayOneShot(listaSonidos[1]);
         }
     }
 }

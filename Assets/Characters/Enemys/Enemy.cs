@@ -37,11 +37,14 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
 
     public bool generated = false;
 
+    public bool noMuerto = true;
+
     // Para boss
     int maxDisparos = 3;
     public int contadorDisparos = 0;
     GameObject enemigoSpawnear;
     int accionActual = 0;
+
 
     private void Awake()
     {

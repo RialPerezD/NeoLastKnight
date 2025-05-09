@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,8 +12,18 @@ public class GameManager : MonoBehaviour
 
     public int actualLevel;
     WorldController worldController;
+    PlayerStats stats;
 
     int siguienteNivel = 0;
+
+    // Persistencia de los stats del player
+    float coins = 0;
+    float costeHp = 5;
+    float costeSword = 5;
+    float costeBow = 5;
+    float maxHp = 10;
+    int damage = 1;
+    int bowDamage = 1;
 
     void Awake()
     {
@@ -41,11 +52,7 @@ public class GameManager : MonoBehaviour
 
     void UpdateReferences()
     {
-        GameObject worldControllerObj = GameObject.Find("WorldController");
-        if (worldControllerObj != null)
-        {
-            worldController = worldControllerObj.GetComponent<WorldController>();
-        }
+        if (worldController == null) worldController = GameObject.Find("WorldController").GetComponent<WorldController>();
     }
 
     public void LanzaBeat()
@@ -56,10 +63,13 @@ public class GameManager : MonoBehaviour
         worldController?.AplicaMovimientos();
         worldController?.DestruyeBasura();
         worldController?.SpawneaObjetos();
+
+        EscupeInfo();
     }
 
     public void CargarPueblo()
     {
+        CargaInfo();
         actualLevel++;
         siguienteNivel = 1;
         SceneManager.LoadScene(sceneBuildIndex: 2);
@@ -68,6 +78,7 @@ public class GameManager : MonoBehaviour
 
     public void CargarNivel()
     {
+        CargaInfo();
         siguienteNivel = actualLevel;
         SceneManager.LoadScene(sceneBuildIndex: 3);
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -79,5 +90,40 @@ public class GameManager : MonoBehaviour
         worldController?.LoadLevel(siguienteNivel);
         if(siguienteNivel == 1) worldController.UpdateaEsNivel(false, 2);
         SceneManager.sceneLoaded -= OnSceneLoaded; // Desuscribirse para evitar múltiples llamadas
+    }
+
+
+    void CargaInfo()
+    {
+        stats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
+
+        coins = stats.coins;
+        costeHp = stats.costeHp;
+        costeSword = stats.costeSword;
+        costeBow = stats.costeBow;
+        maxHp = stats.maxHp;
+        damage = stats.damage;
+        bowDamage = stats.bowDamage;
+    }
+
+
+    void EscupeInfo()
+    {
+        if(stats == null)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player)
+            {
+                stats = player.GetComponent<PlayerStats>();
+
+                stats.coins = coins;
+                stats.costeHp = costeHp;
+                stats.costeSword = costeSword;
+                stats.costeBow = costeBow;
+                stats.maxHp = maxHp;
+                stats.damage = damage;
+                stats.bowDamage = bowDamage;
+            }
+        }
     }
 }

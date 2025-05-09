@@ -19275,6 +19275,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1149732392730061013, guid: a26f11c47c927994ca62b2a58070ae8b, type: 3}
+      propertyPath: m_Name
+      value: Armour
+      objectReference: {fileID: 0}
     - target: {fileID: 1242836848125684224, guid: a26f11c47c927994ca62b2a58070ae8b, type: 3}
       propertyPath: m_Name
       value: UI
@@ -19284,6 +19288,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1959487539084854628, guid: a26f11c47c927994ca62b2a58070ae8b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2156940323317786438, guid: a26f11c47c927994ca62b2a58070ae8b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2156940323317786438, guid: a26f11c47c927994ca62b2a58070ae8b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
@@ -19365,6 +19377,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4547210133678401115, guid: a26f11c47c927994ca62b2a58070ae8b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988712413021276905, guid: a26f11c47c927994ca62b2a58070ae8b, type: 3}
+      propertyPath: m_Name
+      value: Equipment
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988712413021276905, guid: a26f11c47c927994ca62b2a58070ae8b, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

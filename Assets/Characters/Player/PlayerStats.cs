@@ -11,14 +11,14 @@ public class PlayerStats : MonoBehaviour, Combat
     // Estas variables se cargan y descargan, solo esto persiste
     public float coins = 0;
 
-    public float costeHp = 5;
-    public float costeSword = 5;
-    public float costeBow = 5;
+    public float costeHp;
+    public float costeSword;
+    public float costeBow;
 
-    public float maxHp = 10;
+    public float maxHp;
 
-    public int damage = 1;
-    public int bowDamage = 1;
+    public int damage;
+    public int bowDamage;
     ////////////////////////////////////////////////////////////
 
     /* Damage Effect */

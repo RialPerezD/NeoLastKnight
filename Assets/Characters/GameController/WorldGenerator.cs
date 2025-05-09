@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
 
 public class WorldGenerator : MonoBehaviour
 {
@@ -52,6 +53,22 @@ public class WorldGenerator : MonoBehaviour
     }
 
 
+    GameObject InstanciaUnObjeto(GameObject go, Vector3 pos, Tilemap tilemap)
+    {
+        return Instantiate(go, pos, Quaternion.identity, tilemap.transform);
+    }
+
+
+    public void InstanciaPortal(Vector3 pos, Tilemap tilemap)
+    {
+        Vector2Int logicPos = new Vector2Int((int)pos.x, level.GetLength(0) - (int)pos.y);
+
+        GameObject go = Instantiate(spawneable_items_list[1], pos, Quaternion.identity, tilemap.transform);
+        go.GetComponent<Item>().posicion = logicPos;
+        objectsInScene.Add(go);
+    }
+
+
     public void GenerateObjects(Tilemap tilemap)
     {
         objectsInScene = new List<GameObject>();
@@ -71,12 +88,12 @@ public class WorldGenerator : MonoBehaviour
 
                 if (cellValue == equipmentNumber)
                 {
-                    GameObject go = Instantiate(equipmentGO, objectPos, Quaternion.identity, tilemap.transform);
+                    GameObject go = InstanciaUnObjeto(equipmentGO, objectPos, tilemap);
                     objectsInScene.Add(go);
                 }
                 else if (cellValue == pasivesNumber)
                 {
-                    GameObject go = Instantiate(pasivesGO, objectPos, Quaternion.identity, tilemap.transform);
+                    GameObject go = InstanciaUnObjeto(pasivesGO, objectPos, tilemap);
                     objectsInScene.Add(go);
                 }
                 else if (cellValue < objectsStart && cellValue < equipmentNumber)
@@ -85,13 +102,13 @@ public class WorldGenerator : MonoBehaviour
                 }
                 else if (cellValue == playerNumber)
                 {
-                    GameObject go = Instantiate(playerGO, objectPos, Quaternion.identity, tilemap.transform);
+                    GameObject go = InstanciaUnObjeto(playerGO, objectPos, tilemap);
                     go.GetComponent<PlayerMovement>().posicion = logicPos;
                     player = go;
                 }
                 else if (cellValue >= objectsStart && cellValue < enemysStart)
                 {
-                    GameObject go = Instantiate(spawneable_items_list[cellValue - objectsStart], objectPos, Quaternion.identity, tilemap.transform);
+                    GameObject go = InstanciaUnObjeto(spawneable_items_list[cellValue - objectsStart], objectPos, tilemap);
                     go.GetComponent<Item>().posicion = logicPos;
                     objectsInScene.Add(go);
                 }
@@ -117,7 +134,7 @@ public class WorldGenerator : MonoBehaviour
                     objectPos.x += xCorrection;
                     objectPos.y += yCorrection;
 
-                    GameObject go = Instantiate(spawneable_enemy_list[cellValue - enemysStart], objectPos, Quaternion.identity, tilemap.transform);
+                    GameObject go = InstanciaUnObjeto(spawneable_enemy_list[cellValue - enemysStart], objectPos, tilemap);
                     go.GetComponent<Enemy>().posicion = logicPos;
                     go.GetComponent<Enemy>().type = cellValue - enemysStart; 
                     objectsInScene.Add(go);
@@ -144,19 +161,19 @@ public class WorldGenerator : MonoBehaviour
                 GameObject go;
                 if (number == equipmentNumber)
                 {
-                    go = Instantiate(equipmentGO, wolrdPos[i], Quaternion.identity, tilemap.transform);
+                    go = InstanciaUnObjeto(equipmentGO, wolrdPos[i], tilemap);
                 }
                 else if (number == pasivesNumber)
                 {
-                    go = Instantiate(pasivesGO, wolrdPos[i], Quaternion.identity, tilemap.transform);
+                    go = InstanciaUnObjeto(pasivesGO, wolrdPos[i], tilemap);
                 }
                 else if (number >= objectsStart && number < enemysStart)
                 {
-                    go = Instantiate(spawneable_items_list[number - objectsStart], wolrdPos[i], Quaternion.identity, tilemap.transform);
+                    go = InstanciaUnObjeto(spawneable_items_list[number - objectsStart], wolrdPos[i], tilemap);
                 }
                 else
                 {
-                    go = Instantiate(spawneable_enemy_list[number - enemysStart], wolrdPos[i], Quaternion.identity, tilemap.transform);
+                    go = InstanciaUnObjeto(spawneable_enemy_list[number - enemysStart], wolrdPos[i], tilemap);
                 }
 
                 if (go.GetComponent<Enemy>())

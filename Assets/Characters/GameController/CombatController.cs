@@ -14,6 +14,7 @@ public class CombatController : MonoBehaviour
     GameObject player;
     Tilemap tilemap;
     int[,] level;
+    WorldGenerator worldGenerator;
 
     public List<GameObject> listaWeapons;
 
@@ -27,7 +28,8 @@ public class CombatController : MonoBehaviour
         List<GameObject> addObjects_,
         GameObject player_,
         Tilemap tilemap_,
-        int[,] level_)
+        int[,] level_,
+        WorldGenerator worldGenerator_)
     {
         worldObjects = worldObjects_;
         destroyObjects = destroyObjects_;
@@ -35,6 +37,7 @@ public class CombatController : MonoBehaviour
         player = player_;
         tilemap = tilemap_;
         level = level_;
+        worldGenerator = worldGenerator_;
     }
 
     public bool ComprobarCombate(Vector2Int newMatrixPos, Movimiento mov, Vector2Int matrixPos)
@@ -134,20 +137,27 @@ public class CombatController : MonoBehaviour
             foreach (GameObject go in worldObjects)
             {
                 Enemy enemy = go.GetComponent<Enemy>();
-                if (enemy.type == 2)
+                if (enemy != null)
                 {
-                    Vector2Int pos = CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0), level);
-                    foreach (Vector2Int actualPos in Enemy.GeneraMascaraTipo(pos, 0))
+                    if (enemy.type == 2)
                     {
-                        if (actualPos == futurePlayerPos)
+                        Vector2Int pos = CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0), level);
+                        foreach (Vector2Int actualPos in Enemy.GeneraMascaraTipo(pos, 0))
                         {
-                            if (go.GetComponent<Combat>().RecibeDamage(player.GetComponent<PlayerStats>().damage))
+                            if (actualPos == futurePlayerPos)
                             {
-                                Enemy.LimpiaMascaraTipo(pos, 0, level);
-                                destroyObjects.Add(go);
+                                if (go.GetComponent<Combat>().RecibeDamage(player.GetComponent<PlayerStats>().damage))
+                                {
+                                    Enemy.LimpiaMascaraTipo(pos, 0, level);
+                                    enemy.noMuerto = false;
+                                    destroyObjects.Add(go);
 
-                                salir = true;
-                                break;
+                                    level[futurePlayerPos.y, futurePlayerPos.x] = 51;
+                                    worldGenerator.InstanciaPortal(enemy.transform.position, tilemap);
+
+                                    salir = true;
+                                    break;
+                                }
                             }
                         }
                     }

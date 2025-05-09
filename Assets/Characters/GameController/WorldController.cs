@@ -86,7 +86,7 @@ public class WorldController : MonoBehaviour
         }
 
         bool playerMueveCam = false;
-        combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level);
+        combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level, worldGenerator);
 
         bool hayCombate = true;
         if (mov.padre_ != 3)
@@ -123,11 +123,14 @@ public class WorldController : MonoBehaviour
             }
             else
             {
-                Enemy.LimpiaMascaraTipo(matrixPos, 0, level);
-                List<Vector2Int> posiciones = Enemy.GeneraMascaraTipo(newMatrixPos, 0);
-                foreach (Vector2Int vec in posiciones)
+                if (mov.actor_.GetComponent<Enemy>().noMuerto)
                 {
-                    level[vec.y, vec.x] = WorldGenerator.enemysStart + 2;
+                    Enemy.LimpiaMascaraTipo(matrixPos, 0, level);
+                    List<Vector2Int> posiciones = Enemy.GeneraMascaraTipo(newMatrixPos, 0);
+                    foreach (Vector2Int vec in posiciones)
+                    {
+                        level[vec.y, vec.x] = WorldGenerator.enemysStart + 2;
+                    }
                 }
             }
 
@@ -178,13 +181,11 @@ public class WorldController : MonoBehaviour
         if (level[destino.y, destino.x] == WorldGenerator.equipmentNumber)
         {
             player.GetComponent<PlayerStats>().Interactua(100);
-            print("equipa");
         }
         // Si es pasivas abrimos ese menu
         else if (level[destino.y, destino.x] == WorldGenerator.pasivesNumber)
         {
             player.GetComponent<PlayerStats>().Interactua(101);
-            print("pasiva");
         }
         // Comprobar si es un enemigo o espacio en blanco
         else if (level[destino.y, destino.x] == 0 || level[destino.y, destino.x] >= WorldGenerator.enemysStart)
@@ -217,7 +218,7 @@ public class WorldController : MonoBehaviour
             {
                 if (enemy.type == 2)
                 {
-                    combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level);
+                    combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level, worldGenerator);
                     switch (enemy.QueHago())
                     {
                         case 1:
@@ -248,7 +249,7 @@ public class WorldController : MonoBehaviour
                     }
                     else
                     {
-                        combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level);
+                        combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level, worldGenerator);
                         combatController.CompruebaDisparos(enemy);
                     }
                 }
@@ -277,9 +278,12 @@ public class WorldController : MonoBehaviour
 
             foreach (GameObject go in worldObjects)
             {
-                if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0), level) == posicion)
+                if (go.GetComponent<UpdatePosition>() != null)
                 {
-                    destroyObjects.Add(go);
+                    if (CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0), level) == posicion)
+                    {
+                        destroyObjects.Add(go);
+                    }
                 }
             }
         }
