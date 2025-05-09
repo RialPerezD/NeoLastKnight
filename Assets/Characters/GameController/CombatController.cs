@@ -79,6 +79,7 @@ public class CombatController : MonoBehaviour
             Vector3 posicion = mov.actor_.transform.position;
             if (mov.padre_ == 1) posicion.y -= GameManager.grid_y_scale / 4.0f;
             GeneraArma(posicion, mov.direccion_, 1);
+
         }
         else
         {

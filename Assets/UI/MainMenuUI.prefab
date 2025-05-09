@@ -2319,7 +2319,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 3955165896213768365}
         m_TargetAssemblyTypeName: ButtonInteract, Assembly-CSharp
         m_MethodName: LoadSceneByIndex
         m_Mode: 3
