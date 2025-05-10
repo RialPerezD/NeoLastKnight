@@ -11,11 +11,11 @@ public class GameManager : MonoBehaviour
     public static float animDuration = 0.2f;
 
     public int actualLevel;
+    public int siguienteNivel = 0;
     WorldController worldController;
     PlayerStats stats;
     BaseUi ui;
 
-    int siguienteNivel = 0;
 
     // Persistencia de los stats del player
     float coins = 0;
@@ -71,6 +71,8 @@ public class GameManager : MonoBehaviour
 
     public void CargarPueblo()
     {
+        Time.timeScale = 1f;
+
         CargaInfo();
         actualLevel++;
         siguienteNivel = 1;
@@ -94,8 +96,9 @@ public class GameManager : MonoBehaviour
         if (siguienteNivel == 1)
         {
             worldController.UpdateaEsNivel(false, 2);
-            ui.actualizaMonedas = true;
         }
+
+        ui.actualizaMonedas = true;
 
         SceneManager.sceneLoaded -= OnSceneLoaded; // Desuscribirse para evitar múltiples llamadas
     }

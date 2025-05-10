@@ -11,15 +11,11 @@ public class SetVolumeSlide : MonoBehaviour
     {
         live_manager = FindFirstObjectByType<BeatController>();
         soundslider = gameObject.GetComponent<Slider>();
+        audio_source = GameObject.Find("BeatController").GetComponent<AudioSource>();
     }
 
     void Update()
     {
-        if (null == audio_source)
-        {
-            audio_source = live_manager.audioSource; // Si no se asigno el AudioSource, obtenerlo del GameObject
-        }
-        //UnityEngine.Debug.Log("hey " + soundslider.value);
         if (!soundslider)
         {
             soundslider = GameObject.FindWithTag("Sound").GetComponent<Slider>();

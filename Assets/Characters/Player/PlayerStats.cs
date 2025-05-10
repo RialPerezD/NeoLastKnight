@@ -121,7 +121,8 @@ public class PlayerStats : MonoBehaviour, Combat
 
         if (hp <= 0)
         {
-            // muerto
+            Time.timeScale = 0f;
+            GameObject.Find("UI").transform.Find("Muerte").gameObject.SetActive(true);
             return true;
         }
 

@@ -124,11 +124,22 @@ public class BaseUi : MonoBehaviour
         if (tipo == 1)
         {
             transform.Find("Armour").gameObject.SetActive(true);
+
+            costeHp.GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
+            costeHp.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeHp.ToString();
         }
         else
         {
             transform.Find("Equipment").gameObject.SetActive(true);
+
+            costeEspada.GetComponent<TextMeshProUGUI>().text = stats.costeSword.ToString();
+            costeEspada.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeSword.ToString();
+
+            costeArco.GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
+            costeArco.Find("TituloSombra").GetComponent<TextMeshProUGUI>().text = stats.costeBow.ToString();
         }
+
+        ActualizaColores();
     }
 
     public void CompraAlgo(int cosa)
@@ -173,5 +184,42 @@ public class BaseUi : MonoBehaviour
         {
             audioSource.PlayOneShot(listaSonidos[1]);
         }
+
+        ActualizaColores();
+    }
+
+    void ActualizaColores()
+    {
+        if (stats.costeSword > stats.coins)
+        {
+            costeEspada.Find("TituloSombra").GetComponent<TextMeshProUGUI>().color = Color.red;
+        }
+        else
+        {
+            costeEspada.Find("TituloSombra").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        }
+
+        if (stats.costeBow > stats.coins)
+        {
+            costeArco.Find("TituloSombra").GetComponent<TextMeshProUGUI>().color = Color.red;
+        }
+        else
+        {
+            costeArco.Find("TituloSombra").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        }
+
+        if (stats.costeHp > stats.coins)
+        {
+            costeHp.Find("TituloSombra").GetComponent<TextMeshProUGUI>().color = Color.red;
+        }
+        else
+        {
+            costeHp.Find("TituloSombra").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        }
+    }
+
+    public void Muerte()
+    {
+        GameObject.Find("GameManager").GetComponent<GameManager>().CargarPueblo();
     }
 }

@@ -47,7 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reset_position: -400
   beatsPerMinute: 100
-  audioSource: {fileID: 0}
+  listaMusica:
+  - {fileID: 8300000, guid: d39f27d75e39c8d4e99228643547f493, type: 3}
+  - {fileID: 8300000, guid: 8e0f5d9f92ef75c4cac48ce846ca14a5, type: 3}
 --- !u!82 &-7850975941531099990
 AudioSource:
   m_ObjectHideFlags: 0

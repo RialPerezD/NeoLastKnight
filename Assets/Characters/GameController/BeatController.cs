@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +12,9 @@ public class BeatController : MonoBehaviour
     public float beatsPerMinute = 100;
     float beatsPerSecond;
 
-    public AudioSource audioSource;
+    AudioSource audioSource;
     GameManager gameManager;
+    public List<AudioClip> listaMusica;
 
     float timer;
     double startingTime;
@@ -43,7 +45,20 @@ public class BeatController : MonoBehaviour
 
     private void Start()
     {
+        if (gameManager.siguienteNivel == 1)
+        {
+            audioSource.clip = listaMusica[0];
+            beatsPerSecond = 60.0f / 112f;
+        }
+        else
+        {
+            audioSource.clip = listaMusica[1];
+            beatsPerSecond = 60.0f / 100f;
+        }
+
+        audioSource.loop = true;
         audioSource.Play();
+
         startingTime = AudioSettings.dspTime;
     }
 
@@ -66,7 +81,7 @@ public class BeatController : MonoBehaviour
         if (palpita)
         {
             float t_normalizado = timer * 2f; // de min 0.0 -> max 0.5 a min 0 -> max 1
-            float valor = 1f + (Mathf.Abs(t_normalizado - 0.5f)/2);
+            float valor = 1f + (Mathf.Abs(t_normalizado - 0.5f) / 2);
             centroBarra.rectTransform.localScale = new Vector3(valor, valor, 1f);
         }
     }
@@ -103,12 +118,12 @@ public class BeatController : MonoBehaviour
     {
         if (timer < 0.4f)
         {
-            if(debug)print("Bien "+timer);
+            if (debug) print("Bien " + timer);
             return true;
         }
         if (debug) print("Mal " + timer);
         return false;
     }
 
-    
+
 }
