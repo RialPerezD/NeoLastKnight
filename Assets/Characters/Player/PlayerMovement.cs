@@ -194,7 +194,7 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
     IEnumerator ForzarCamaraCentrada()
     {
         Vector3 startPos = myCamera.transform.position;
-        Vector3 endPos = startPos + new Vector3(0, GameManager.grid_y_scale * 4, 0);
+        Vector3 endPos = startPos + new Vector3(0, GameManager.grid_y_scale * 3, 0);
         float tiempo = 0f;
 
         while (tiempo < GameManager.animDuration * 2)

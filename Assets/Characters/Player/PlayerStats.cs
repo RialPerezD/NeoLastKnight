@@ -87,20 +87,23 @@ public class PlayerStats : MonoBehaviour, Combat
         }
     }
 
-    public void Interactua(int objectType)
+    public void Interactua(int objectType, Vector2Int direccion)
     {
         switch (objectType)
         {
             case 0:
                 coins += 5;
                 ui.CambiaMonedas(coins);
-                SpawnParticles();
+                SpawnParticles(direccion);
                 break;
             case 1:
                 manager.CargarPueblo();
                 break;
             case 2:
                 manager.CargarNivel();
+                break;
+            case 3:
+                manager.CargarTuto();
                 break;
             case 100:
                 ui.ActivaTienda(0);
@@ -129,11 +132,15 @@ public class PlayerStats : MonoBehaviour, Combat
         return false;
     }
 
-    public void SpawnParticles()
+    public void SpawnParticles(Vector2Int direccion)
     {
         audioSource.PlayOneShot(listaSonidos[0]);
 
-        Vector3 pos = transform.position;
+        Vector3 pos = transform.position + new Vector3(
+            direccion.x * GameManager.grid_x_scale,
+            direccion.y * GameManager.grid_y_scale,
+            0);
+
         pos.y += 0.5f;
         GameObject particles = Instantiate(particulasMonedas, pos, Quaternion.identity);
 

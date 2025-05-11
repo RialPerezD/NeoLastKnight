@@ -10,6 +10,7 @@ TagManager:
   - BSD
   - Sound
   - BSM
+  - star
   layers:
   - Default
   - TransparentFX

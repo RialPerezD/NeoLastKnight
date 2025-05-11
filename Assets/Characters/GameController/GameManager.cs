@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public int actualLevel;
     public int siguienteNivel = 0;
+    int parteTuto = 0;
     WorldController worldController;
     PlayerStats stats;
     BaseUi ui;
@@ -73,8 +74,8 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        CargaInfo();
-        actualLevel++;
+        CargaInfo(); 
+        if(actualLevel < 3) actualLevel++;
         siguienteNivel = 1;
         SceneManager.LoadScene(sceneBuildIndex: 2);
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -88,6 +89,15 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    public void CargarTuto()
+    {
+        CargaInfo();
+        siguienteNivel = 5 + parteTuto;
+        SceneManager.LoadScene(sceneBuildIndex: 5 + parteTuto);
+        parteTuto++;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         UpdateReferences();
@@ -96,6 +106,10 @@ public class GameManager : MonoBehaviour
         if (siguienteNivel == 1)
         {
             worldController.UpdateaEsNivel(false, 2);
+        }
+        else if(siguienteNivel >= 5)
+        {
+            worldController.UpdateaEsNivel(false, 6);
         }
 
         ui.actualizaMonedas = true;

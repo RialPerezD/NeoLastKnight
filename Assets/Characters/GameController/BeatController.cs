@@ -24,6 +24,7 @@ public class BeatController : MonoBehaviour
     Image bolaIzquierdaBarra;
     Image bolaDerechaBarra;
     Image centroBarra;
+    Image estrella;
     Material materialPelota;
     float flashvalue = 0;
     bool palpita = false;
@@ -35,6 +36,7 @@ public class BeatController : MonoBehaviour
         bolaIzquierdaBarra = GameObject.FindWithTag("BSI").GetComponent<Image>();
         bolaDerechaBarra = GameObject.FindWithTag("BSD").GetComponent<Image>();
         centroBarra = GameObject.FindWithTag("BSM").GetComponent<Image>();
+        estrella = GameObject.FindWithTag("star").GetComponent<Image>();
         materialPelota = bolaIzquierdaBarra.material;
 
         beatsPerSecond = 60.0f / beatsPerMinute;
@@ -94,6 +96,15 @@ public class BeatController : MonoBehaviour
 
         // Posicion del beat
         currentBeatPosition = reset_position * timer;
+
+        Color color = estrella.color;
+        if (timer >= 0.8f)
+        {
+            color.a = (timer - 0.8f) / 0.2f * 0.75f;
+        } else {
+            color.a = 0;
+        }
+        estrella.color = color;
 
         // El beat acaba de pasar, hacer lo que haya que hacer
         if (timer >= 0.95f && !beatTriggered)

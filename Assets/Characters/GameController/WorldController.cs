@@ -180,12 +180,12 @@ public class WorldController : MonoBehaviour
         // Si es equipamiento abrimos ese menu
         if (level[destino.y, destino.x] == WorldGenerator.equipmentNumber)
         {
-            player.GetComponent<PlayerStats>().Interactua(100);
+            player.GetComponent<PlayerStats>().Interactua(100, new Vector2Int(0,0));
         }
         // Si es pasivas abrimos ese menu
         else if (level[destino.y, destino.x] == WorldGenerator.pasivesNumber)
         {
-            player.GetComponent<PlayerStats>().Interactua(101);
+            player.GetComponent<PlayerStats>().Interactua(101, new Vector2Int(0, 0));
         }
         // Comprobar si es un enemigo o espacio en blanco
         else if (level[destino.y, destino.x] == 0 || level[destino.y, destino.x] >= WorldGenerator.enemysStart)
@@ -198,7 +198,7 @@ public class WorldController : MonoBehaviour
             movimientos.Add(new Movimiento(player, origen, direccion, 0));
 
             // Compruebo si choco contra un cofre o algo
-            CompruebaIteracciones(CoordenadaEnMatrix(origen, direccion, level));
+            CompruebaIteracciones(CoordenadaEnMatrix(origen, direccion, level), direccion);
         }
     }
 
@@ -270,11 +270,11 @@ public class WorldController : MonoBehaviour
     }
 
 
-    void CompruebaIteracciones(Vector2Int posicion)
+    void CompruebaIteracciones(Vector2Int posicion, Vector2Int direccion)
     {
         if (level[posicion.y, posicion.x] < WorldGenerator.enemysStart && level[posicion.y, posicion.x] != 0)
         {
-            player.GetComponent<PlayerStats>().Interactua(level[posicion.y, posicion.x] - WorldGenerator.objectsStart);
+            player.GetComponent<PlayerStats>().Interactua(level[posicion.y, posicion.x] - WorldGenerator.objectsStart, direccion);
 
             foreach (GameObject go in worldObjects)
             {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 797232275450390877}
   - component: {fileID: 8948394191246983033}
   m_Layer: 0
-  m_Name: mushroom
+  m_Name: mushroom1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1dabc42c56bf6c74a80069f68625fbf1, type: 2}
+  - {fileID: 2100000, guid: c89b85a727200c64ebd157e89ab06629, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -654737500350741434, guid: cfe7d1d9e47bd534db836593c8900d1c, type: 3}
+  m_Sprite: {fileID: -5439128301356790873, guid: eebc05d8eedab534fad7d87fe71961de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ Animator:
   m_GameObject: {fileID: 4387744134788574282}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1504bd4de78e28347a31577406125944, type: 2}
+  m_Controller: {fileID: 9100000, guid: c7068da0ebe140e4480ec0a388097b90, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -126,5 +126,12 @@ MonoBehaviour:
   damage: 1
   hp: 1
   type: 0
+  range: 0
   movimientos: 00000000010000000200000003000000
   posicion: {x: 0, y: 0}
+  indiceMovimiento: 0
+  cadenciaDisparo: 3
+  indiceDisparo: 0
+  generated: 0
+  noMuerto: 1
+  contadorDisparos: 0
