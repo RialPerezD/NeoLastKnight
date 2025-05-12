@@ -310,7 +310,14 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Mushroom-Idle3_0: -6800866966284709189
+      Mushroom-Idle3_1: 8273710987834998964
+      Mushroom-Idle3_2: -2526613194357878895
+      Mushroom-Idle3_3: -4639409351152603243
+      Mushroom-Idle3_4: 7693525513158198152
+      Mushroom-Idle3_5: -9129351619469308764
+      Mushroom-Idle3_6: -8920930375241281940
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

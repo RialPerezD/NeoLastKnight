@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
         if (inputDirection != Vector2Int.zero && beatController.PuedoMoverme())
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
-            if ((inputDirection.y > 0 || alturaActual + inputDirection.y >= limiteInferior) && lastmoveefective)
+            if ((inputDirection.y > 0 || alturaActual + inputDirection.y >= limiteInferior) )
             {
                 lastInputDirection = inputDirection;
                 if (alturaActual == alturaMovCam && inputDirection.y < 0) alturaActual -= 1;
@@ -55,12 +55,10 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
 
                 worldController.MovimientoPlayer(posicion, inputDirection);
             }
-            lastmoveefective = true;
         }
         else if (inputDirection != Vector2Int.zero && !beatController.PuedoMoverme())
         {
             transform.rotation = Quaternion.Euler(0, 0, 90);
-            lastmoveefective = false;
             audioSource.PlayOneShot(listaSonidos[0]);
         }
     }

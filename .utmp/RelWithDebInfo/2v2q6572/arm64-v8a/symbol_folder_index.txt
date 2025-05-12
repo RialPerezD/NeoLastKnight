@@ -1,0 +1,1 @@
+C:\Users\capit\Repositorios\2PU_TA_bellotvi_rialpe_2\NeoLastKnight\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\2v2q6572\obj\arm64-v8a
