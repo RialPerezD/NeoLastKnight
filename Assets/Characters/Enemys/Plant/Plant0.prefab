@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -1346923149517786522}
   - component: {fileID: 6030791393235113427}
   m_Layer: 0
-  m_Name: Plant
+  m_Name: Plant0
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06bbc2ba7720e0e459c9940f431301a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 2
   hp: 1
   type: 0
   range: 10

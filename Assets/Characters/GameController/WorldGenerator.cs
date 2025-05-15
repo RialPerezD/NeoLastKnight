@@ -136,7 +136,7 @@ public class WorldGenerator : MonoBehaviour
 
                     GameObject go = InstanciaUnObjeto(spawneable_enemy_list[cellValue - enemysStart], objectPos, tilemap);
                     go.GetComponent<Enemy>().posicion = logicPos;
-                    go.GetComponent<Enemy>().type = cellValue - enemysStart; 
+                    go.GetComponent<Enemy>().type = (cellValue - enemysStart)%3; 
                     objectsInScene.Add(go);
                 }
             }
