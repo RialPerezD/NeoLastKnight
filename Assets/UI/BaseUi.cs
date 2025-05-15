@@ -14,7 +14,10 @@ public class BaseUi : MonoBehaviour
     Transform costeHp;
     Transform scoreBarra;
 
+   
+
     public GameObject canvasToActivePause;
+    public GameObject canvasDeath;
     private bool pauseactive = false;
 
     Vector3 inicioBarra;
@@ -221,5 +224,6 @@ public class BaseUi : MonoBehaviour
     public void Muerte()
     {
         GameObject.Find("GameManager").GetComponent<GameManager>().CargarPueblo();
+        canvasDeath.SetActive(false);
     }
 }
