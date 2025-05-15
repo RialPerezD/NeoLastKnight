@@ -54,6 +54,7 @@ Material:
     - _StencilWriteMask: 255
     - _UIMaskSoftnessX: 1
     - _UIMaskSoftnessY: 1
+    - _darkening: -0.014494073
     - _darkening: 0
     - _outrad: 1
     - _radius: 0.266
