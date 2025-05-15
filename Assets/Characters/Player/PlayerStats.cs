@@ -54,6 +54,7 @@ public class PlayerStats : MonoBehaviour, Combat
                 break;
             }
         }
+        splashDamage.SetFloat("_darkening", 0);
 
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
@@ -84,6 +85,10 @@ public class PlayerStats : MonoBehaviour, Combat
                 Splash = false;
                 hitted = false;
             } 
+        }
+        if(hp <= 0.0f)
+        {
+            splashDamage.SetFloat("_darkening", 0);
         }
     }
 
