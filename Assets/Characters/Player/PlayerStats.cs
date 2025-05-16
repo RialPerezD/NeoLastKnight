@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -99,15 +100,21 @@ public class PlayerStats : MonoBehaviour, Combat
             case 0:
                 coins += 5;
                 ui.CambiaMonedas(coins);
-                SpawnParticles(direccion);
+                StartCoroutine(SpawnParticles(direccion));
                 break;
             case 1:
                 manager.CargarPueblo();
                 break;
             case 2:
-                manager.CargarNivel();
+                manager.CargarNivel(0);
                 break;
             case 3:
+                manager.CargarNivel(1);
+                break;
+            case 4:
+                manager.CargarNivel(2);
+                break;
+            case 5:
                 manager.CargarTuto();
                 break;
             case 100:
@@ -138,8 +145,9 @@ public class PlayerStats : MonoBehaviour, Combat
         return false;
     }
 
-    public void SpawnParticles(Vector2Int direccion)
+    public IEnumerator SpawnParticles(Vector2Int direccion)
     {
+        yield return new WaitForSeconds(GameManager.animDuration * 0.75f);
         audioSource.PlayOneShot(listaSonidos[0]);
 
         Vector3 pos = transform.position + new Vector3(

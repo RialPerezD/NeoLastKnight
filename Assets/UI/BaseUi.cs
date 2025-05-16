@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class BaseUi : MonoBehaviour
 {
     PlayerStats stats;
+    GameManager go;
     Slider barraVida;
     TextMeshProUGUI monedas;
     Transform costeEspada;
@@ -14,7 +15,10 @@ public class BaseUi : MonoBehaviour
     Transform costeHp;
     Transform scoreBarra;
 
-   
+    Transform nivelEspada;
+    Transform nivelArco;
+    Transform nivelHp;
+
 
     public GameObject canvasToActivePause;
     public GameObject canvasDeath;
@@ -27,6 +31,7 @@ public class BaseUi : MonoBehaviour
 
     void Start()
     {
+        go = GameObject.Find("GameManager").GetComponent<GameManager>();
         barraVida = transform.Find("HealthBar").GetComponent<Slider>();
         scoreBarra = transform.Find("Score").GetComponent<Transform>();
         monedas = scoreBarra.Find("ScoreText").GetComponent<TextMeshProUGUI>();
@@ -39,6 +44,10 @@ public class BaseUi : MonoBehaviour
 
         costeHp = transform.Find("Armour").Find("Buttons").Find("Hp").Find("center")
                 .Find("Titulo");
+
+        nivelEspada = transform.Find("PowrLevels").Find("Sword").Find("shadow");
+        nivelArco = transform.Find("PowrLevels").Find("Bow").Find("shadow");
+        nivelHp = transform.Find("PowrLevels").Find("Hp").Find("shadow");
 
         audioSource = GetComponent<AudioSource>();
 
@@ -56,7 +65,20 @@ public class BaseUi : MonoBehaviour
             }
         }
 
-        monedas.text = stats.coins.ToString();
+        if (monedas != null)
+        {
+            monedas.text = stats.coins.ToString();
+        }
+
+        if(nivelEspada != null)
+        {
+            nivelEspada.GetComponent<TextMeshProUGUI>().text = stats.damage.ToString();
+            nivelEspada.transform.Find("text").GetComponent<TextMeshProUGUI>().text = stats.damage.ToString();
+            nivelArco.GetComponent<TextMeshProUGUI>().text = stats.bowDamage.ToString();
+            nivelArco.transform.Find("text").GetComponent<TextMeshProUGUI>().text = stats.bowDamage.ToString();
+            nivelHp.GetComponent<TextMeshProUGUI>().text = stats.maxHp.ToString();
+            nivelHp.transform.Find("text").GetComponent<TextMeshProUGUI>().text = stats.maxHp.ToString();
+        }
     }
 
     public void CambiaVida(float vida)
@@ -219,5 +241,10 @@ public class BaseUi : MonoBehaviour
     {
         GameObject.Find("GameManager").GetComponent<GameManager>().CargarPueblo();
         canvasDeath.SetActive(false);
+    }
+
+    public void CargaMenuPrincipal()
+    {
+        go.CargaMenuPrincipal();
     }
 }

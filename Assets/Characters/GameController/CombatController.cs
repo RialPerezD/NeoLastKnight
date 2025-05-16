@@ -64,7 +64,11 @@ public class CombatController : MonoBehaviour
             // Esto es proyectil
             if (numObjective == WorldGenerator.playerNumber)
             {
-                CombateProyectilJugador(mov);
+                if (CombateProyectilJugador(mov))
+                {
+                    level[newMatrixPos.y, newMatrixPos.x] = 0;
+                }
+
                 level[matrixPos.y, matrixPos.x] = 0;
             }
             else if (numObjective <= WorldGenerator.objectsStart
@@ -80,7 +84,11 @@ public class CombatController : MonoBehaviour
         else if (mov.padre_ >= 1 && numObjective == WorldGenerator.playerNumber)
         {
             // Esto es enemigos
-            ComabteEnemigoPlayer(mov);
+            if(ComabteEnemigoPlayer(mov))
+            {
+                level[newMatrixPos.y, newMatrixPos.x] = 0;
+            }
+
             Vector3 posicion = mov.actor_.transform.position;
             if (mov.padre_ == 1) posicion.y -= GameManager.grid_y_scale / 4.0f;
             GeneraArma(posicion, mov.direccion_, 1);
@@ -121,18 +129,29 @@ public class CombatController : MonoBehaviour
     }
 
 
-    void CombateProyectilJugador(Movimiento mov)
+    bool CombateProyectilJugador(Movimiento mov)
     {
-        player.GetComponent<Combat>().RecibeDamage(mov.actor_.GetComponent<Disparable>().damage);
+        if (player.GetComponent<Combat>().RecibeDamage(mov.actor_.GetComponent<Disparable>().damage))
+        {
+            return true;
+        }
+
         destroyObjects.Add(mov.actor_);
+
+        return false;
     }
 
 
-    void ComabteEnemigoPlayer(Movimiento mov)
+    bool ComabteEnemigoPlayer(Movimiento mov)
     {
         Enemy enemy = mov.actor_.GetComponent<Enemy>();
         enemy.indiceMovimiento--;
-        player.GetComponent<Combat>().RecibeDamage(enemy.damage);
+        if (player.GetComponent<Combat>().RecibeDamage(enemy.damage))
+        {
+            return true;
+        }
+
+        return false;
     }
 
 

@@ -45,10 +45,13 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
     GameObject enemigoSpawnear;
     int accionActual = 0;
 
+    AudioSource audioSource;
+    public List<AudioClip> listaSonidos;
 
     private void Awake()
     {
         indiceMovimiento = 0;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public Vector2Int DameMovimiento()
@@ -72,7 +75,13 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
     {
         hp -= ammount;
 
-        if (hp <= 0) return true;
+        if (listaSonidos.Count != 0) audioSource.PlayOneShot(listaSonidos[0]);
+
+        if (hp <= 0)
+        {
+            if (listaSonidos.Count != 0) audioSource.PlayOneShot(listaSonidos[1]);
+            return true;
+        }
 
         return false;
     }

@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public static float grid_y_scale = 1.905f;
     public static float animDuration = 0.2f;
 
-    public int actualLevel;
     public int siguienteNivel = 0;
     int parteTuto = 0;
     WorldController worldController;
@@ -46,10 +45,8 @@ public class GameManager : MonoBehaviour
     {
         UpdateReferences();
 
-        actualLevel = 0;
-        worldController.LoadLevel(actualLevel);
+        worldController.LoadLevel(0);
         worldController.UpdateaEsNivel(false, 6);
-        actualLevel = 1;
     }
 
     void UpdateReferences()
@@ -70,21 +67,28 @@ public class GameManager : MonoBehaviour
         EscupeInfo();
     }
 
+    public void CargaMenuPrincipal()
+    {
+        CargaInfo();
+
+        SceneManager.LoadScene(sceneBuildIndex: 0);
+        Destroy(gameObject);
+    }
+
     public void CargarPueblo()
     {
         Time.timeScale = 1f;
 
         CargaInfo(); 
-        if(actualLevel < 3) actualLevel++;
         siguienteNivel = 1;
         SceneManager.LoadScene(sceneBuildIndex: 2);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void CargarNivel()
+    public void CargarNivel(int nivel)
     {
         CargaInfo();
-        siguienteNivel = actualLevel;
+        siguienteNivel = 2 + nivel;
         SceneManager.LoadScene(sceneBuildIndex: 3);
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
