@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5236657919483014181, guid: 61326ff3a3a8f35429a8de3422c0c57d, type: 3}
+  m_Sprite: {fileID: 2484953741054241863, guid: b2b221526fb487945a78af26c40d7fc0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -133,6 +133,7 @@ MonoBehaviour:
   particulasMonedas: {fileID: 8941284338732811748, guid: e7af2194e86fc5d49bdb2d122e857d8c, type: 3}
   listaSonidos:
   - {fileID: 8300000, guid: ef032ff49077a4d4f8d3e3fc5f6291b5, type: 3}
+  - {fileID: 8300000, guid: f5b10be7ad83bd9448e4eb2b264d9f81, type: 3}
 --- !u!82 &3607313781009196783
 AudioSource:
   m_ObjectHideFlags: 0

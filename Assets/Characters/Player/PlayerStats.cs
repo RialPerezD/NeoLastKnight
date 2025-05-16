@@ -123,6 +123,7 @@ public class PlayerStats : MonoBehaviour, Combat
 
     public bool RecibeDamage(int ammount)
     {
+        audioSource.PlayOneShot(listaSonidos[1]);
         hp -= ammount;
         hitted = true;
         ui.CambiaVida((hp / maxHp) * 100f);

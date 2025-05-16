@@ -172,10 +172,12 @@ public class WorldController : MonoBehaviour
         if (go != null) go.transform.localPosition = endPos;
     }
 
-    public void MovimientoPlayer(Vector2Int origen, Vector2Int direccion)
+    public int MovimientoPlayer(Vector2Int origen, Vector2Int direccion)
     {
         // Comprobamos si casilla destino esta vacia
         Vector2Int destino = CoordenadaEnMatrix(origen, direccion, level);
+
+        if (level[destino.y, destino.x] == 1) return 1;
 
         // Si es equipamiento abrimos ese menu
         if (level[destino.y, destino.x] == WorldGenerator.equipmentNumber)
@@ -200,6 +202,8 @@ public class WorldController : MonoBehaviour
             // Compruebo si choco contra un cofre o algo
             CompruebaIteracciones(CoordenadaEnMatrix(origen, direccion, level), direccion);
         }
+
+        return 0;
     }
 
 

@@ -112,8 +112,6 @@ public class GameManager : MonoBehaviour
             worldController.UpdateaEsNivel(false, 6);
         }
 
-        ui.actualizaMonedas = true;
-
         SceneManager.sceneLoaded -= OnSceneLoaded; // Desuscribirse para evitar múltiples llamadas
     }
 

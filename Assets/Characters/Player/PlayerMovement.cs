@@ -53,7 +53,10 @@ public class PlayerMovement : MonoBehaviour, UpdatePosition
                 if (alturaActual == alturaMovCam && inputDirection.y < 0) alturaActual -= 1;
                 if (alturaActual + inputDirection.y <= alturaMovCam) alturaActual = alturaActual + inputDirection.y;
 
-                worldController.MovimientoPlayer(posicion, inputDirection);
+                if(worldController.MovimientoPlayer(posicion, inputDirection) == 1)
+                {
+                    alturaActual--;
+                }
             }
         }
         else if (inputDirection != Vector2Int.zero && !beatController.PuedoMoverme())

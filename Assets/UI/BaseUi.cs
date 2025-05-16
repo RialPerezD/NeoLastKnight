@@ -25,8 +25,6 @@ public class BaseUi : MonoBehaviour
     AudioSource audioSource;
     public List<AudioClip> listaSonidos;
 
-    public bool actualizaMonedas = false;
-
     void Start()
     {
         barraVida = transform.Find("HealthBar").GetComponent<Slider>();
@@ -58,11 +56,7 @@ public class BaseUi : MonoBehaviour
             }
         }
 
-        if (actualizaMonedas)
-        {
-            monedas.text = stats.coins.ToString();
-            actualizaMonedas = false;
-        }
+        monedas.text = stats.coins.ToString();
     }
 
     public void CambiaVida(float vida)
