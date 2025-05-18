@@ -129,7 +129,7 @@ MonoBehaviour:
   maxHp: 10
   damage: 1
   bowDamage: 0
-  maxSplashEffect: 1
+  maxSplashEffect: 1.5
   particulasMonedas: {fileID: 8941284338732811748, guid: e7af2194e86fc5d49bdb2d122e857d8c, type: 3}
   listaSonidos:
   - {fileID: 8300000, guid: ef032ff49077a4d4f8d3e3fc5f6291b5, type: 3}

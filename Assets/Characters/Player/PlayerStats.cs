@@ -31,7 +31,7 @@ public class PlayerStats : MonoBehaviour, Combat
     Canvas canvasplayer;
     bool hitted = false;
     bool Splash = false;
-    public float maxSplashEffect = 2;
+    public float maxSplashEffect = 1.5f;
 
     GameManager manager;
 
@@ -72,19 +72,19 @@ public class PlayerStats : MonoBehaviour, Combat
             float flash = Mathf.Abs(Mathf.Sin(tick) * 0.8f);
             material.SetFloat("_Flash", flash);
         }
-        if (hitted && !Splash)
+        if (hitted && hitted)
         {
             splashDamage.SetFloat("_darkening", maxSplashEffect);
             Splash = true;
+            hitted = false;
         }
         if (Splash)
         {
-            float take = (splashDamage.GetFloat("_darkening") - 0.2f * 20.0f * Time.deltaTime);
+            float take = (splashDamage.GetFloat("_darkening") - 0.2f * 10.0f * Time.deltaTime);
             splashDamage.SetFloat("_darkening", take);
             if (take <= 0.0f)
             {
                 Splash = false;
-                hitted = false;
             } 
         }
         if(hp <= 0.0f)
