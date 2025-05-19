@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,7 +18,10 @@ public class GameManager : MonoBehaviour
     BaseUi ui;
 
 
+
+
     // Persistencia de los stats del player
+    public bool tutorial = true;
     float coins = 0;
     float costeHp = 5;
     float costeSword = 5;
@@ -39,6 +43,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // Destruir duplicados
             return;
         }
+        tutorial = true;
     }
 
     void Start()
@@ -78,7 +83,7 @@ public class GameManager : MonoBehaviour
     public void CargarPueblo()
     {
         Time.timeScale = 1f;
-
+        tutorial = true;
         CargaInfo(); 
         siguienteNivel = 1;
         SceneManager.LoadScene(sceneBuildIndex: 2);
@@ -88,6 +93,7 @@ public class GameManager : MonoBehaviour
     public void CargarNivel(int nivel)
     {
         CargaInfo();
+        tutorial = false;
         siguienteNivel = 2 + nivel;
         SceneManager.LoadScene(sceneBuildIndex: 3);
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -96,6 +102,7 @@ public class GameManager : MonoBehaviour
     public void CargarTuto()
     {
         CargaInfo();
+        tutorial = true;
         siguienteNivel = 5 + parteTuto;
         SceneManager.LoadScene(sceneBuildIndex: 5 + parteTuto);
         parteTuto++;

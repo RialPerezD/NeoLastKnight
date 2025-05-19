@@ -127,6 +127,7 @@ MonoBehaviour:
   hp: 2
   type: 0
   range: 0
+  "particulaDa\xF1o": {fileID: 8108234860837219922, guid: 7d04c676a3e5efc4988d9e958148f4b8, type: 3}
   movimientos: 010000000000000003000000030000000200000001000000010000000200000003000000030000000000000001000000
   posicion: {x: 0, y: 0}
   indiceMovimiento: 0
@@ -135,3 +136,4 @@ MonoBehaviour:
   generated: 0
   noMuerto: 1
   contadorDisparos: 0
+  listaSonidos: []

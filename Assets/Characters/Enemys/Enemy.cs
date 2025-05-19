@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
     public int hp;
     public int type;
     public int range;
+    public GameObject particulaDaño;
 
     public List<int> movimientos;
 
@@ -74,6 +75,11 @@ public class Enemy : MonoBehaviour, UpdatePosition, Combat
     public bool RecibeDamage(int ammount)
     {
         hp -= ammount;
+        Vector3 pos = transform.position + new Vector3(
+        0,
+        0.0f,
+        0);
+        Instantiate(particulaDaño, pos, Quaternion.identity);
 
         if (listaSonidos.Count != 0) audioSource.PlayOneShot(listaSonidos[0]);
 

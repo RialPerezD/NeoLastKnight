@@ -1,40 +1,75 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using TMPro;
+
 
 public class FadeInFadeOut : MonoBehaviour
 {
-    public CanvasGroup canvasGroup;
+    public RawImage rawImage;
+    public TextMeshProUGUI text;
     public float fadeDuration = 1f;
+    public float timetilfade = 1f;
+    private GameManager instance;
+    private bool faded = false;
 
-    void Awake()
+    void Start()
     {
-        if (canvasGroup == null)
-            canvasGroup = GetComponent<CanvasGroup>();
+        // Set to transparent
+
+        // Start fading in
+        //StartCoroutine(FadeOut());
+        instance = FindFirstObjectByType<GameManager>();
+        if (instance)
+        {
+            if (instance.tutorial) SetAlpha(0f);
+            else
+            {
+                SetAlpha(1f);
+                string levelname = (instance.siguienteNivel - 1).ToString();
+
+                text.text = "Level: " + levelname;
+
+            }
+        }
+
     }
 
-    public void FadeIn()
+    void SetAlpha(float alpha)
     {
-        StartCoroutine(FadeCanvas(0f, 1f));
+        if (rawImage)
+        {
+            Color c = rawImage.color;
+            c.a = alpha;
+            rawImage.color = c;
+        }
+
+        if (text)
+        {
+            Color c = text.color;
+            c.a = alpha;
+            text.color = c;
+        }
     }
 
-    public void FadeOut()
-    {
-        StartCoroutine(FadeCanvas(1f, 0f));
-    }
-
-    private IEnumerator FadeCanvas(float start, float end)
+    IEnumerator FadeOut()
     {
         float elapsed = 0f;
+        faded = true;
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(start, end, elapsed / fadeDuration);
+            float alpha = Mathf.Clamp01(1 - (elapsed / fadeDuration)); // goes from 1 to 0
+            SetAlpha(alpha);
             yield return null;
         }
-        canvasGroup.alpha = end;
 
-        // Optionally disable interaction when faded out
-        canvasGroup.interactable = end > 0.9f;
-        canvasGroup.blocksRaycasts = end > 0.9f;
+        SetAlpha(0f); // Ensure fully transparent at the end
+    }
+
+    void Update()
+    {
+        timetilfade -= Time.deltaTime;
+        if(timetilfade < 0 && !faded && !instance.tutorial) StartCoroutine(FadeOut());
     }
 }

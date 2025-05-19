@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7249687797235768162}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.83, y: -1.9, z: 0.017707413}
+  m_LocalPosition: {x: -1.515, y: -1.88, z: 0.017707413}
   m_LocalScale: {x: 4.5, y: 4.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -127,6 +127,7 @@ MonoBehaviour:
   hp: 2
   type: 0
   range: 15
+  "particulaDa\xF1o": {fileID: 8108234860837219922, guid: 7d04c676a3e5efc4988d9e958148f4b8, type: 3}
   movimientos: 
   posicion: {x: 0, y: 0}
   indiceMovimiento: 0
@@ -135,3 +136,4 @@ MonoBehaviour:
   generated: 0
   noMuerto: 1
   contadorDisparos: 0
+  listaSonidos: []
