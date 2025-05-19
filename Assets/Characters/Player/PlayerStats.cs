@@ -36,6 +36,7 @@ public class PlayerStats : MonoBehaviour, Combat
     GameManager manager;
 
     public GameObject particulasMonedas;
+    public GameObject particulaDaño;
 
     AudioSource audioSource;
     public List<AudioClip> listaSonidos;
@@ -134,6 +135,12 @@ public class PlayerStats : MonoBehaviour, Combat
         hp -= ammount;
         hitted = true;
         ui.CambiaVida((hp / maxHp) * 100f);
+
+        Vector3 pos = transform.position + new Vector3(
+        0,
+        0.7f,
+        0);
+        Instantiate(particulaDaño, pos, Quaternion.identity);
 
         if (hp <= 0)
         {
