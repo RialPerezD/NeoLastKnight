@@ -197,6 +197,7 @@ public class CombatController : MonoBehaviour
             foreach (GameObject go in worldObjects)
             {
                 Vector2Int pos = CoordenadaEnMatrix(go.GetComponent<UpdatePosition>().GetPosition(), new Vector2Int(0, 0), level);
+
                 Enemy enemy = go.GetComponent<Enemy>();
                 if (enemy)
                 {

@@ -9,18 +9,28 @@ public class FileLoader : MonoBehaviour
         Dictionary<int, Dictionary<int, int[,]>> all_block_maps = new Dictionary<int, Dictionary<int, int[,]>>();
         int fileIndex = 0;
 
-        foreach(string file_name in file_names){
+        foreach(string file_name in file_names)
+        {
+            // Quitar extensión .txt y ruta completa del archivo (debe estar en Assets/Resources/)
+            string resourceName = Path.GetFileNameWithoutExtension(file_name);
 
-            // Ruta del archivo, se asume que esta en la carpeta Assets/streamingAssetsPath/.
-            string path = Path.Combine(Application.streamingAssetsPath, file_name);
+            // Cargar el archivo como TextAsset desde Resources
+            TextAsset textAsset = Resources.Load<TextAsset>(resourceName);
+
+            if (textAsset == null)
+            {
+                Debug.LogError("No se pudo cargar el archivo desde Resources: " + resourceName);
+                continue;
+            }
 
             // Leer el contenido del archivo de texto
-            string[] blocks = File.ReadAllText(path).Split('-');
+            string[] blocks = textAsset.text.Split('-');
 
             int blockIndex = 0;
 
             // Inicializamos un nuevo diccionario para almacenar los bloques de este archivo
             Dictionary<int, int[,]> blockMapForFile = new Dictionary<int, int[,]>();
+
 
             // Recorremos los bloques separados por '-'
             foreach (string block in blocks)

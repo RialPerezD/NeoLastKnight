@@ -2466,6 +2466,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: BeatController
       objectReference: {fileID: 0}
+    - target: {fileID: 8194451520387497868, guid: 1ce86e97790f0c04a94b0c77a8c26a15, type: 3}
+      propertyPath: beatsPerMinute
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8194451520387497868, guid: 1ce86e97790f0c04a94b0c77a8c26a15, type: 3}
+      propertyPath: tiempoMovimiento
+      value: 0.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

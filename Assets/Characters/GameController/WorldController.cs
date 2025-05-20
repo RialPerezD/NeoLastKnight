@@ -36,6 +36,8 @@ public class WorldController : MonoBehaviour
     bool esNivel = true;
     int ajusteVertical = 0;
 
+    int nivel;
+
     void Awake()
     {
         destroyObjects = new List<GameObject>();
@@ -48,6 +50,8 @@ public class WorldController : MonoBehaviour
 
     public void LoadLevel(int level_index)
     {
+        nivel = level_index;
+
         worldGenerator.GenerateWorldLayout(level_index, level_index != 0);
         level = worldGenerator.level;
 
@@ -89,21 +93,25 @@ public class WorldController : MonoBehaviour
         combatController.Actualiza(worldObjects, destroyObjects, addObjects, player, tilemap, level, worldGenerator);
 
         bool hayCombate = true;
-        if (mov.padre_ != 3)
+
+        if (nivel != 1)
         {
-            hayCombate = combatController.ComprobarCombate(newMatrixPos, mov, matrixPos);
-        }
-        else
-        {
-            for (int i = -1; i < 1; i++)
+            if (mov.padre_ != 3)
             {
-                if (!combatController.ComprobarCombate(
-                    new Vector2Int(newMatrixPos.x + moveDir.x, newMatrixPos.y + i + moveDir.y),
-                    mov,
-                    matrixPos
-                    ))
+                hayCombate = combatController.ComprobarCombate(newMatrixPos, mov, matrixPos);
+            }
+            else
+            {
+                for (int i = -1; i < 1; i++)
                 {
-                    hayCombate = false;
+                    if (!combatController.ComprobarCombate(
+                        new Vector2Int(newMatrixPos.x + moveDir.x, newMatrixPos.y + i + moveDir.y),
+                        mov,
+                        matrixPos
+                        ))
+                    {
+                        hayCombate = false;
+                    }
                 }
             }
         }

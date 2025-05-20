@@ -29,6 +29,8 @@ public class BeatController : MonoBehaviour
     float flashvalue = 0;
     bool palpita = false;
 
+    public float tiempoMovimiento = 0.4f;
+
     void Awake()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -127,7 +129,7 @@ public class BeatController : MonoBehaviour
 
     public bool PuedoMoverme()
     {
-        if (timer < 0.4f)
+        if (timer < tiempoMovimiento)
         {
             if (debug) print("Bien " + timer);
             return true;
